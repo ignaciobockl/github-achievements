@@ -1,16 +1,18 @@
 import { useMemo, useState } from "react";
-import type { Achievement, AchievementCategory } from "../data/types";
+import type { LocalizedAchievement } from "../data/localize";
+import type { Locale } from "../i18n";
 import type { Messages } from "../i18n/translations";
 import { AchievementCard } from "./AchievementCard";
 
 interface CatalogProps {
-  achievements: Achievement[];
+  achievements: LocalizedAchievement[];
   t: Messages;
+  locale: Locale;
 }
 
-type Filter = "all" | AchievementCategory;
+type Filter = "all" | "earnable" | "obsolete" | "internal" | "disabled";
 
-export function Catalog({ achievements, t }: CatalogProps) {
+export function Catalog({ achievements, t, locale }: CatalogProps) {
   const [filter, setFilter] = useState<Filter>("all");
   const [search, setSearch] = useState("");
 
@@ -81,7 +83,7 @@ export function Catalog({ achievements, t }: CatalogProps) {
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((achievement) => (
             <li key={achievement.slug}>
-              <AchievementCard achievement={achievement} t={t} />
+              <AchievementCard achievement={achievement} t={t} locale={locale} />
             </li>
           ))}
         </ul>

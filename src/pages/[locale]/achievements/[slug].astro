@@ -1,23 +1,29 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { ThemeToggle } from "../../components/ThemeToggle";
-import { achievements } from "../../data/achievements";
-import { translations } from "../../i18n/translations";
+import Layout from "../../../layouts/Layout.astro";
+import { ThemeToggle } from "../../../components/ThemeToggle";
+import { achievements } from "../../../data/achievements";
+import { localizeAchievement } from "../../../data/localize";
+import { translations } from "../../../i18n/translations";
+import { locales, type Locale } from "../../../i18n";
 
 export function getStaticPaths() {
-  return achievements.map((achievement) => ({
-    params: { slug: achievement.slug }
-  }));
+  return locales.flatMap((locale) =>
+    achievements.map((achievement) => ({
+      params: { locale, slug: achievement.slug }
+    }))
+  );
 }
 
+const locale = Astro.params.locale as Locale;
 const { slug } = Astro.params;
-const achievement = achievements.find((a) => a.slug === slug);
 
-if (!achievement) {
-  return Astro.redirect("/");
+const raw = achievements.find((a) => a.slug === slug);
+if (!raw) {
+  return Astro.redirect(`/${locale}`);
 }
 
-const t = translations.en;
+const achievement = localizeAchievement(raw, locale);
+const t = translations[locale];
 
 const tierBadges: Record<string, string | undefined> = {
   bronze: achievement.badge.bronze,
@@ -29,7 +35,7 @@ const tierBadges: Record<string, string | undefined> = {
 <Layout title={`${achievement.title} — ${t.meta.title}`} description={achievement.summary}>
   <header class="border-b border-neutral-200 px-6 py-4 dark:border-neutral-800">
     <div class="mx-auto flex max-w-3xl items-center justify-between gap-4">
-      <a href="/" class="text-lg font-semibold hover:opacity-80">
+      <a href={`/${locale}`} class="text-lg font-semibold hover:opacity-80">
         {t.meta.title}
       </a>
       <ThemeToggle client:load label={t.theme.label} labels={t.theme} />
@@ -37,7 +43,7 @@ const tierBadges: Record<string, string | undefined> = {
   </header>
   <main class="mx-auto w-full max-w-3xl px-6 py-10">
     <a
-      href="/"
+      href={`/${locale}`}
       class="mb-6 inline-block text-sm text-blue-600 hover:underline dark:text-blue-400"
     >
       ← {t.catalog.back}
@@ -100,9 +106,12 @@ const tierBadges: Record<string, string | undefined> = {
                 }
                 <div>
                   <p class="font-medium">
-                    {tier.emoji} {t.tierNames[tier.tier]} <span class="opacity-60">({tier.label})</span>
+                    {tier.emoji} {t.tierNames[tier.tier]}{" "}
+                    <span class="opacity-60">({tier.label})</span>
                   </p>
-                  <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{tier.criterion}</p>
+                  <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                    {tier.criterion}
+                  </p>
                 </div>
               </li>
             ))}

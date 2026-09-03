@@ -1,7 +1,7 @@
 {
   "name": "github-achievements",
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A comprehensive guide to all GitHub profile achievements: earnable and retired badges, tiers, guides to unlock them, and repository analysis.",
   "private": true,
   "engines": {

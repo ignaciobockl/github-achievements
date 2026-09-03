@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import App from "../../components/App";
+import { achievements } from "../../data/achievements";
+import { localizeAchievement } from "../../data/localize";
+import { translations } from "../../i18n/translations";
+import { locales, type Locale } from "../../i18n";
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const t = translations[locale];
+const localized = achievements.map((a) => localizeAchievement(a, locale));
+---
+
+<Layout title={t.meta.title} description={t.meta.description}>
+  <App client:load locale={locale} achievements={localized} t={t} homePath={`/${locale}`} />
+</Layout>
