@@ -58,6 +58,8 @@ Always run `bun run lint`, `bun run typecheck`, and `bun run test` before commit
 - **`develop`**: integration branch (protected). Never push directly.
 - **Every task** creates a feature branch from `develop` and a **PR to `develop`**.
 - PR title and description in **English**, describing the changes.
+- **Every PR must be assigned to `ignaciobockl`.**
+- **CI (Quality + E2E checks) must pass** before a PR can be merged (enforced by branch protection).
 - Branches are released to `master` by merging `develop` when a version is complete.
 
 ## Commits
