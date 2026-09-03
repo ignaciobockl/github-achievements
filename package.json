@@ -1,0 +1,50 @@
+{
+  "name": "github-achievements",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "A comprehensive guide to all GitHub profile achievements: earnable and retired badges, tiers, guides to unlock them, and repository analysis.",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0",
+    "bun": ">=1.2.0"
+  },
+  "packageManager": "bun@1.4.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "typecheck": "astro sync && tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6.0.5",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "astro": "^7.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.12",
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "@playwright/test": "^1.62.1",
+    "@vitest/coverage-v8": "^5.0.0",
+    "husky": "^9.1.7",
+    "vitest": "^5.0.0"
+  },
+  "allowScripts": {
+    "esbuild": true
+  }
+}
