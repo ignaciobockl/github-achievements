@@ -1,0 +1,136 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { ThemeToggle } from "../../components/ThemeToggle";
+import { achievements } from "../../data/achievements";
+import { translations } from "../../i18n/translations";
+
+export function getStaticPaths() {
+  return achievements.map((achievement) => ({
+    params: { slug: achievement.slug }
+  }));
+}
+
+const { slug } = Astro.params;
+const achievement = achievements.find((a) => a.slug === slug);
+
+if (!achievement) {
+  return Astro.redirect("/");
+}
+
+const t = translations.en;
+
+const tierBadges: Record<string, string | undefined> = {
+  bronze: achievement.badge.bronze,
+  silver: achievement.badge.silver,
+  gold: achievement.badge.gold
+};
+---
+
+<Layout title={`${achievement.title} — ${t.meta.title}`} description={achievement.summary}>
+  <header class="border-b border-neutral-200 px-6 py-4 dark:border-neutral-800">
+    <div class="mx-auto flex max-w-3xl items-center justify-between gap-4">
+      <a href="/" class="text-lg font-semibold hover:opacity-80">
+        {t.meta.title}
+      </a>
+      <ThemeToggle client:load label={t.theme.label} labels={t.theme} />
+    </div>
+  </header>
+  <main class="mx-auto w-full max-w-3xl px-6 py-10">
+    <a
+      href="/"
+      class="mb-6 inline-block text-sm text-blue-600 hover:underline dark:text-blue-400"
+    >
+      ← {t.catalog.back}
+    </a>
+
+    <div class="flex items-center gap-4">
+      <img
+        src={achievement.badge.default}
+        alt={`${achievement.title} badge`}
+        width={80}
+        height={80}
+        class="h-20 w-20 object-contain"
+      />
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight">{achievement.title}</h1>
+        <p class="mt-1 text-neutral-600 dark:text-neutral-400">
+          {t.categories[achievement.category]} · {t.earnability[achievement.earnability]}
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-6 text-lg text-neutral-700 dark:text-neutral-300">{achievement.summary}</p>
+
+    {
+      achievement.previousNames && achievement.previousNames.length > 0 && (
+        <p class="mt-3 text-sm text-neutral-500">
+          {t.catalog.previousNames}: {achievement.previousNames.join(", ")}
+        </p>
+      )
+    }
+
+    <section class="mt-8">
+      <h2 class="text-xl font-semibold">{t.catalog.howToGet}</h2>
+      <ul class="mt-3 list-disc space-y-2 pl-6 text-neutral-700 dark:text-neutral-300">
+        {achievement.howToGet.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-8">
+      <h2 class="text-xl font-semibold">{t.catalog.tiers}</h2>
+      {
+        achievement.tiers.length === 0 ? (
+          <p class="mt-3 text-neutral-500">{t.catalog.noTiers}</p>
+        ) : (
+          <ul class="mt-4 space-y-3">
+            {achievement.tiers.map((tier) => (
+              <li class="flex items-start gap-3 rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
+                {
+                  tierBadges[tier.tier] && (
+                    <img
+                      src={tierBadges[tier.tier]}
+                      alt={`${achievement.title} ${t.tierNames[tier.tier]} badge`}
+                      width={40}
+                      height={40}
+                      class="h-10 w-10 object-contain"
+                    />
+                  )
+                }
+                <div>
+                  <p class="font-medium">
+                    {tier.emoji} {t.tierNames[tier.tier]} <span class="opacity-60">({tier.label})</span>
+                  </p>
+                  <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{tier.criterion}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </section>
+
+    {
+      achievement.references.length > 0 && (
+        <section class="mt-8">
+          <h2 class="text-xl font-semibold">{t.catalog.references}</h2>
+          <ul class="mt-3 space-y-2">
+            {achievement.references.map((ref) => (
+              <li>
+                <a
+                  href={ref.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  {ref.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </main>
+</Layout>
