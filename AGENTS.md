@@ -72,8 +72,14 @@ Always run `bun run lint`, `bun run typecheck`, and `bun run test` before commit
 ## Internationalization
 
 The site supports multiple languages automatically via [Astro i18n routing](https://docs.astro.build/en/guides/internationalization/).
-Configured locales live in `src/i18n/`. The user's browser language is detected automatically
-with a sensible default fallback.
+
+- Configured in `astro.config.mjs` (`i18n.locales`, `defaultLocale`) with `prefixDefaultLocale: true`.
+- Routes are prefixed by locale: `/en/...` and `/es/...`.
+- Pages live under `src/pages/[locale]/...` (catalog and `achievements/[slug]` detail).
+- The root `src/pages/index.astro` detects the browser language client-side and redirects.
+- Achievements are stored as localized fields (`LocalizedText` / `LocalizedStringArray`) in
+  `src/data/achievements.ts` and resolved per locale via `localizeAchievement()` in `src/data/localize.ts`.
+- UI strings live in `src/i18n/translations.ts` keyed by locale.
 
 ## Theme
 

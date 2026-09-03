@@ -1,18 +1,20 @@
-import type { Achievement } from "../data/types";
+import type { LocalizedAchievement } from "../data/localize";
+import type { Locale } from "../i18n";
 import type { Messages } from "../i18n/translations";
 
 interface AchievementCardProps {
-  achievement: Achievement;
+  achievement: LocalizedAchievement;
   t: Messages;
+  locale: Locale;
 }
 
-export function AchievementCard({ achievement, t }: AchievementCardProps) {
+export function AchievementCard({ achievement, t, locale }: AchievementCardProps) {
   const earnabilityLabel = t.earnability[achievement.earnability];
   const categoryLabel = t.categories[achievement.category];
 
   return (
     <a
-      href={`/achievements/${achievement.slug}`}
+      href={`/${locale}/achievements/${achievement.slug}`}
       className="block h-full rounded-xl border border-neutral-200 p-5 transition hover:border-blue-400 hover:shadow-md dark:border-neutral-800 dark:hover:border-blue-600"
     >
       <div className="flex items-start justify-between gap-3">

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { locales } from "../i18n";
 import { achievements } from "./achievements";
 import type { AchievementCategory } from "./types";
 
@@ -17,12 +18,14 @@ describe("achievements data", () => {
   it("has required fields on every achievement", () => {
     for (const achievement of achievements) {
       expect(achievement.slug).toBeTruthy();
-      expect(achievement.title).toBeTruthy();
       expect(achievement.badge.default).toBeTruthy();
       expect(validCategories).toContain(achievement.category);
-      expect(Array.isArray(achievement.howToGet)).toBe(true);
-      expect(achievement.howToGet.length).toBeGreaterThan(0);
-      expect(Array.isArray(achievement.tiers)).toBe(true);
+      for (const locale of locales) {
+        expect(achievement.title[locale]).toBeTruthy();
+        expect(achievement.summary[locale]).toBeTruthy();
+        expect(Array.isArray(achievement.howToGet[locale])).toBe(true);
+        expect(achievement.howToGet[locale].length).toBeGreaterThan(0);
+      }
     }
   });
 
@@ -34,11 +37,13 @@ describe("achievements data", () => {
     }
   });
 
-  it("defines valid tiers", () => {
+  it("defines valid tiers with localized criteria", () => {
     for (const achievement of achievements) {
       for (const tier of achievement.tiers) {
         expect(["bronze", "silver", "gold"]).toContain(tier.tier);
-        expect(tier.criterion).toBeTruthy();
+        for (const locale of locales) {
+          expect(tier.criterion[locale]).toBeTruthy();
+        }
       }
     }
   });

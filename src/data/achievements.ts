@@ -6,7 +6,7 @@ const BADGE_BASE =
 export const achievements: Achievement[] = [
   {
     slug: "pair-extraordinaire",
-    title: "Pair Extraordinaire",
+    title: { en: "Pair Extraordinaire", es: "Pair Extraordinaire" },
     category: "earnable",
     earnable: true,
     earnability: "earnable",
@@ -16,62 +16,93 @@ export const achievements: Achievement[] = [
       silver: `${BADGE_BASE}/tiers/pair-extraordinaire-silver.png`,
       gold: `${BADGE_BASE}/tiers/pair-extraordinaire-gold.png`,
     },
-    summary: "Coauthor commits in merged pull requests.",
-    howToGet: [
-      "Coauthor a commit that lands in a merged pull request.",
-      "Use the Co-authored-by trailer in the commit message to record multiple authors.",
-      "Repeat across more pull requests to climb the tiers.",
-    ],
+    summary: {
+      en: "Coauthor commits in merged pull requests.",
+      es: "Coautoría de commits en pull requests ya fusionados.",
+    },
+    howToGet: {
+      en: [
+        "Coauthor a commit that lands in a merged pull request.",
+        "Use the Co-authored-by trailer in the commit message to record multiple authors.",
+        "Repeat across more pull requests to climb the tiers.",
+      ],
+      es: [
+        "Coautoriza un commit que termine en un pull request fusionado.",
+        "Usa la línea Co-authored-by en el mensaje del commit para registrar varios autores.",
+        "Repite en más pull requests para subir de nivel.",
+      ],
+    },
     tiers: [
       {
         tier: "bronze",
         label: "x2",
         emoji: "🥉",
         hex: "#F9BFA7",
-        criterion: "Coauthored in 10 merged pull requests.",
+        criterion: {
+          en: "Coauthored in 10 merged pull requests.",
+          es: "Coautoría en 10 pull requests fusionados.",
+        },
       },
       {
         tier: "silver",
         label: "x3",
         emoji: "🥈",
         hex: "#E1E4E4",
-        criterion: "Coauthored in 24 merged pull requests.",
+        criterion: {
+          en: "Coauthored in 24 merged pull requests.",
+          es: "Coautoría en 24 pull requests fusionados.",
+        },
       },
       {
         tier: "gold",
         label: "x4",
         emoji: "🥇",
         hex: "#FAE57E",
-        criterion: "Coauthored in 48 merged pull requests.",
+        criterion: {
+          en: "Coauthored in 48 merged pull requests.",
+          es: "Coautoría en 48 pull requests fusionados.",
+        },
       },
     ],
     references: [
       {
-        label: "Creating a commit with multiple authors",
+        label: {
+          en: "Creating a commit with multiple authors",
+          es: "Crear un commit con varios autores",
+        },
         url: "https://docs.github.com/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors",
       },
     ],
   },
   {
     slug: "quickdraw",
-    title: "Quickdraw",
+    title: { en: "Quickdraw", es: "Quickdraw" },
     category: "earnable",
     earnable: true,
     earnability: "earnable",
     badge: {
       default: `${BADGE_BASE}/quickdraw-default.png`,
     },
-    summary: "Close an issue or pull request within 5 minutes of opening it.",
-    howToGet: [
-      "Open an issue or pull request and close it within 5 minutes.",
-      "This is the base achievement; it has no tiers.",
-    ],
+    summary: {
+      en: "Close an issue or pull request within 5 minutes of opening it.",
+      es: "Cierra un issue o pull request dentro de los 5 minutos de abrirlo.",
+    },
+    howToGet: {
+      en: [
+        "Open an issue or pull request and close it within 5 minutes.",
+        "This is the base achievement; it has no tiers.",
+      ],
+      es: [
+        "Abre un issue o pull request y ciérralo dentro de 5 minutos.",
+        "Es el logro base; no tiene niveles.",
+      ],
+    },
     tiers: [],
     references: [],
   },
   {
     slug: "starstruck",
-    title: "Starstruck",
+    title: { en: "Starstruck", es: "Starstruck" },
     category: "earnable",
     earnable: true,
     earnability: "earnable",
@@ -81,36 +112,51 @@ export const achievements: Achievement[] = [
       silver: `${BADGE_BASE}/tiers/starstruck-silver.png`,
       gold: `${BADGE_BASE}/tiers/starstruck-gold.png`,
     },
-    summary: "Create a repository that earns stars.",
-    howToGet: ["Create a public repository that gains stars."],
+    summary: {
+      en: "Create a repository that earns stars.",
+      es: "Crea un repositorio que acumule estrellas.",
+    },
+    howToGet: {
+      en: ["Create a public repository that gains stars."],
+      es: ["Crea un repositorio público que gane estrellas."],
+    },
     tiers: [
       {
         tier: "bronze",
         label: "x2",
         emoji: "🥉",
         hex: "#F9BFA7",
-        criterion: "Created a repository that has 128 stars.",
+        criterion: {
+          en: "Created a repository that has 128 stars.",
+          es: "Creaste un repositorio con 128 estrellas.",
+        },
       },
       {
         tier: "silver",
         label: "x3",
         emoji: "🥈",
         hex: "#E1E4E4",
-        criterion: "Created a repository that has 512 stars.",
+        criterion: {
+          en: "Created a repository that has 512 stars.",
+          es: "Creaste un repositorio con 512 estrellas.",
+        },
       },
       {
         tier: "gold",
         label: "x4",
         emoji: "🥇",
         hex: "#FAE57E",
-        criterion: "Created a repository that has 4096 stars.",
+        criterion: {
+          en: "Created a repository that has 4096 stars.",
+          es: "Creaste un repositorio con 4096 estrellas.",
+        },
       },
     ],
     references: [],
   },
   {
     slug: "galaxy-brain",
-    title: "Galaxy Brain",
+    title: { en: "Galaxy Brain", es: "Galaxy Brain" },
     category: "earnable",
     earnable: true,
     earnability: "earnable",
@@ -120,30 +166,42 @@ export const achievements: Achievement[] = [
       silver: `${BADGE_BASE}/tiers/galaxy-brain-silver.png`,
       gold: `${BADGE_BASE}/tiers/galaxy-brain-gold.png`,
     },
-    summary: "Provide answers marked as accepted in discussions.",
-    howToGet: ["Answer questions in GitHub Discussions and get your answer accepted."],
+    summary: {
+      en: "Provide answers marked as accepted in discussions.",
+      es: "Da respuestas que sean marcadas como aceptadas en las discusiones.",
+    },
+    howToGet: {
+      en: ["Answer questions in GitHub Discussions and get your answer accepted."],
+      es: ["Responde preguntas en GitHub Discussions y logra que acepten tu respuesta."],
+    },
     tiers: [
       {
         tier: "bronze",
         label: "x2",
         emoji: "🥉",
         hex: "#F9BFA7",
-        criterion: "8 accepted answers.",
+        criterion: { en: "8 accepted answers.", es: "8 respuestas aceptadas." },
       },
       {
         tier: "silver",
         label: "x3",
         emoji: "🥈",
         hex: "#E1E4E4",
-        criterion: "16 accepted answers.",
+        criterion: { en: "16 accepted answers.", es: "16 respuestas aceptadas." },
       },
-      { tier: "gold", label: "x4", emoji: "🥇", hex: "#FAE57E", criterion: "32 accepted answers." },
+      {
+        tier: "gold",
+        label: "x4",
+        emoji: "🥇",
+        hex: "#FAE57E",
+        criterion: { en: "32 accepted answers.", es: "32 respuestas aceptadas." },
+      },
     ],
     references: [],
   },
   {
     slug: "pull-shark",
-    title: "Pull Shark",
+    title: { en: "Pull Shark", es: "Pull Shark" },
     category: "earnable",
     earnable: true,
     earnability: "earnable",
@@ -153,151 +211,221 @@ export const achievements: Achievement[] = [
       silver: `${BADGE_BASE}/tiers/pull-shark-silver.png`,
       gold: `${BADGE_BASE}/tiers/pull-shark-gold.png`,
     },
-    summary: "Get pull requests merged.",
-    howToGet: ["Open pull requests that get merged."],
+    summary: {
+      en: "Get pull requests merged.",
+      es: "Consigue que fusionen tus pull requests.",
+    },
+    howToGet: {
+      en: ["Open pull requests that get merged."],
+      es: ["Abre pull requests que sean fusionados."],
+    },
     tiers: [
       {
         tier: "bronze",
         label: "x2",
         emoji: "🥉",
         hex: "#F9BFA7",
-        criterion: "16 pull requests merged.",
+        criterion: { en: "16 pull requests merged.", es: "16 pull requests fusionados." },
       },
       {
         tier: "silver",
         label: "x3",
         emoji: "🥈",
         hex: "#E1E4E4",
-        criterion: "128 pull requests merged.",
+        criterion: { en: "128 pull requests merged.", es: "128 pull requests fusionados." },
       },
       {
         tier: "gold",
         label: "x4",
         emoji: "🥇",
         hex: "#FAE57E",
-        criterion: "1024 pull requests merged.",
+        criterion: { en: "1024 pull requests merged.", es: "1024 pull requests fusionados." },
       },
     ],
     references: [],
   },
   {
     slug: "yolo",
-    title: "YOLO",
+    title: { en: "YOLO", es: "YOLO" },
     category: "earnable",
     earnable: true,
     earnability: "earnable",
     badge: {
       default: `${BADGE_BASE}/yolo-default.png`,
     },
-    summary: "Merge your own pull request without a code review.",
-    howToGet: ["Merge one of your own pull requests without any code review required."],
+    summary: {
+      en: "Merge your own pull request without a code review.",
+      es: "Fusiona tu propio pull request sin revisión de código.",
+    },
+    howToGet: {
+      en: ["Merge one of your own pull requests without any code review required."],
+      es: ["Fusiona uno de tus propios pull requests sin requerir revisión de código."],
+    },
     tiers: [],
     references: [],
   },
   {
     slug: "public-sponsor",
-    title: "Public Sponsor",
+    title: { en: "Public Sponsor", es: "Public Sponsor" },
     category: "earnable",
     earnable: true,
     earnability: "earnable",
     badge: {
       default: `${BADGE_BASE}/public-sponsor-default.png`,
     },
-    summary: "Sponsor open source work via GitHub Sponsors.",
-    howToGet: ["Sponsor an open source project through GitHub Sponsors while visible publicly."],
+    summary: {
+      en: "Sponsor open source work via GitHub Sponsors.",
+      es: "Patrocina trabajo open source a través de GitHub Sponsors.",
+    },
+    howToGet: {
+      en: ["Sponsor an open source project through GitHub Sponsors while visible publicly."],
+      es: ["Patrocina un proyecto open source mediante GitHub Sponsors de forma pública."],
+    },
     tiers: [],
-    references: [{ label: "GitHub Sponsors", url: "https://github.com/sponsors" }],
-    previousNames: ["GitHub Sponsor"],
+    references: [
+      {
+        label: { en: "GitHub Sponsors", es: "GitHub Sponsors" },
+        url: "https://github.com/sponsors",
+      },
+    ],
+    previousNames: [{ en: "GitHub Sponsor", es: "GitHub Sponsor" }],
   },
   {
     slug: "arctic-code-vault-contributor",
-    title: "Arctic Code Vault Contributor",
+    title: { en: "Arctic Code Vault Contributor", es: "Arctic Code Vault Contributor" },
     category: "obsolete",
     earnable: false,
     earnability: "not-earnable",
     badge: {
       default: `${BADGE_BASE}/arctic-code-vault-contributor-default.png`,
     },
-    summary: "Contributed code to repositories in the 2020 GitHub Archive Program.",
-    howToGet: [
-      "This achievement is no longer earnable. It was awarded to contributors whose code was archived in the Arctic Code Vault as part of the 2020 GitHub Archive Program.",
-    ],
+    summary: {
+      en: "Contributed code to repositories in the 2020 GitHub Archive Program.",
+      es: "Contribuiste código a repositorios del Programa de Archivo de GitHub 2020.",
+    },
+    howToGet: {
+      en: [
+        "This achievement is no longer earnable. It was awarded to contributors whose code was archived in the Arctic Code Vault as part of the 2020 GitHub Archive Program.",
+      ],
+      es: [
+        "Este logro ya no se puede conseguir. Se otorgó a colaboradores cuyo código fue archivado en el Arctic Code Vault como parte del Programa de Archivo de GitHub 2020.",
+      ],
+    },
     tiers: [],
-    references: [{ label: "Arctic Code Vault", url: "https://archiveprogram.github.com/" }],
+    references: [
+      {
+        label: { en: "Arctic Code Vault", es: "Arctic Code Vault" },
+        url: "https://archiveprogram.github.com/",
+      },
+    ],
   },
   {
     slug: "mars-2020-contributor",
-    title: "Mars 2020 Contributor",
+    title: { en: "Mars 2020 Contributor", es: "Mars 2020 Contributor" },
     category: "obsolete",
     earnable: false,
     earnability: "not-earnable",
     badge: {
       default: `${BADGE_BASE}/mars-2020-contributor-default.png`,
     },
-    summary: "Contributed code to repositories used in the Mars 2020 Helicopter Mission.",
-    howToGet: [
-      "This achievement is no longer earnable. It was awarded to contributors whose code was used in the Mars 2020 Helicopter Mission.",
-    ],
+    summary: {
+      en: "Contributed code to repositories used in the Mars 2020 Helicopter Mission.",
+      es: "Contribuiste código a repositorios usados en la misión del helicóptero Mars 2020.",
+    },
+    howToGet: {
+      en: [
+        "This achievement is no longer earnable. It was awarded to contributors whose code was used in the Mars 2020 Helicopter Mission.",
+      ],
+      es: [
+        "Este logro ya no se puede conseguir. Se otorgó a colaboradores cuyo código se usó en la misión del helicóptero Mars 2020.",
+      ],
+    },
     tiers: [],
     references: [
       {
-        label: "NASA Ingenuity Helicopter",
+        label: { en: "NASA Ingenuity Helicopter", es: "Helicóptero Ingenuity de la NASA" },
         url: "https://github.com/readme/nasa-ingenuity-helicopter",
       },
     ],
-    previousNames: ["Mars 2020 Helicopter Contributor"],
+    previousNames: [
+      { en: "Mars 2020 Helicopter Contributor", es: "Mars 2020 Helicopter Contributor" },
+    ],
   },
   {
     slug: "proxima-pioneer",
-    title: "Proxima Pioneer",
+    title: { en: "Proxima Pioneer", es: "Proxima Pioneer" },
     category: "internal",
     earnable: false,
     earnability: "internal",
     badge: {
       default: `${BADGE_BASE}/proxima-pioneer-default-51cd4e4969d5.png`,
     },
-    summary: "Internal badge for GitHub staff who contributed to the Proxima POC.",
-    howToGet: [
-      "Internal achievement awarded to GitHub staff (M0 participant, contributed to Proxima POC). Cannot be earned through typical activity.",
-    ],
+    summary: {
+      en: "Internal badge for GitHub staff who contributed to the Proxima POC.",
+      es: "Insignia interna para personal de GitHub que contribuyó al Proxima POC.",
+    },
+    howToGet: {
+      en: [
+        "Internal achievement awarded to GitHub staff (M0 participant, contributed to Proxima POC). Cannot be earned through typical activity.",
+      ],
+      es: [
+        "Logro interno otorgado al personal de GitHub (participante M0, contribuyó al Proxima POC). No se puede conseguir con actividad normal.",
+      ],
+    },
     tiers: [],
     references: [],
   },
   {
     slug: "proxima-staffshipper",
-    title: "Proxima Staffshipper",
+    title: { en: "Proxima Staffshipper", es: "Proxima Staffshipper" },
     category: "internal",
     earnable: false,
     earnability: "internal",
     badge: {
       default: `${BADGE_BASE}/proxima-staffshipper-default-84f658288021.png`,
     },
-    summary: "Internal badge for GitHub staff who shipped a Proxima Staffship instance.",
-    howToGet: [
-      "Internal achievement awarded to GitHub staff (M8 participant, shipped Proxima Staffship instance). Cannot be earned through typical activity.",
-    ],
+    summary: {
+      en: "Internal badge for GitHub staff who shipped a Proxima Staffship instance.",
+      es: "Insignia interna para personal de GitHub que desplegó una instancia de Proxima Staffship.",
+    },
+    howToGet: {
+      en: [
+        "Internal achievement awarded to GitHub staff (M8 participant, shipped Proxima Staffship instance). Cannot be earned through typical activity.",
+      ],
+      es: [
+        "Logro interno otorgado al personal de GitHub (participante M8, desplegó una instancia de Proxima Staffship). No se puede conseguir con actividad normal.",
+      ],
+    },
     tiers: [],
     references: [],
   },
   {
     slug: "proxima-staffuser",
-    title: "Proxima Staffuser",
+    title: { en: "Proxima Staffuser", es: "Proxima Staffuser" },
     category: "internal",
     earnable: false,
     earnability: "internal",
     badge: {
       default: `${BADGE_BASE}/proxima-staffuser-default-02bf6163ea31.png`,
     },
-    summary: "Internal badge for GitHub staff whose team is on Proxima.",
-    howToGet: [
-      "Internal achievement awarded to GitHub staff onboarded to Proxima. Cannot be earned through typical activity.",
-    ],
+    summary: {
+      en: "Internal badge for GitHub staff whose team is on Proxima.",
+      es: "Insignia interna para personal de GitHub cuyo equipo está en Proxima.",
+    },
+    howToGet: {
+      en: [
+        "Internal achievement awarded to GitHub staff onboarded to Proxima. Cannot be earned through typical activity.",
+      ],
+      es: [
+        "Logro interno otorgado al personal de GitHub incorporado a Proxima. No se puede conseguir con actividad normal.",
+      ],
+    },
     tiers: [],
     references: [],
   },
   {
     slug: "heart-on-your-sleeve",
-    title: "Heart On Your Sleeve",
+    title: { en: "Heart On Your Sleeve", es: "Heart On Your Sleeve" },
     category: "disabled",
     earnable: false,
     earnability: "being-tested",
@@ -307,36 +435,45 @@ export const achievements: Achievement[] = [
       silver: `${BADGE_BASE}/tiers/heart-on-your-sleeve-silver.png`,
       gold: `${BADGE_BASE}/tiers/heart-on-your-sleeve-gold.png`,
     },
-    summary: "React to something on GitHub with a heart emoji (disabled, being tested).",
-    howToGet: ["This achievement is currently disabled and only being tested. It is not earnable."],
+    summary: {
+      en: "React to something on GitHub with a heart emoji (disabled, being tested).",
+      es: "Reacciona a algo en GitHub con un emoji de corazón (deshabilitado, en pruebas).",
+    },
+    howToGet: {
+      en: ["This achievement is currently disabled and only being tested. It is not earnable."],
+      es: ["Este logro está deshabilitado y solo en pruebas. No se puede conseguir."],
+    },
     tiers: [
       {
         tier: "bronze",
         label: "x2",
         emoji: "🥉",
         hex: "#F9BFA7",
-        criterion: "16 heart reactions.",
+        criterion: { en: "16 heart reactions.", es: "16 reacciones de corazón." },
       },
       {
         tier: "silver",
         label: "x3",
         emoji: "🥈",
         hex: "#E1E4E4",
-        criterion: "128 heart reactions.",
+        criterion: { en: "128 heart reactions.", es: "128 reacciones de corazón." },
       },
       {
         tier: "gold",
         label: "x4",
         emoji: "🥇",
         hex: "#FAE57E",
-        criterion: "Unknown number of heart reactions.",
+        criterion: {
+          en: "Unknown number of heart reactions.",
+          es: "Número desconocido de reacciones de corazón.",
+        },
       },
     ],
     references: [],
   },
   {
     slug: "open-sourcerer",
-    title: "Open Sourcerer",
+    title: { en: "Open Sourcerer", es: "Open Sourcerer" },
     category: "disabled",
     earnable: false,
     earnability: "being-tested",
@@ -346,37 +483,46 @@ export const achievements: Achievement[] = [
       silver: `${BADGE_BASE}/tiers/open-sourcerer-silver.png`,
       gold: `${BADGE_BASE}/tiers/open-sourcerer-gold.png`,
     },
-    summary: "Have pull requests merged in multiple public repositories (disabled, being tested).",
-    howToGet: ["This achievement is currently disabled and only being tested. It is not earnable."],
+    summary: {
+      en: "Have pull requests merged in multiple public repositories (disabled, being tested).",
+      es: "Consigue fusionar pull requests en varios repositorios públicos (deshabilitado, en pruebas).",
+    },
+    howToGet: {
+      en: ["This achievement is currently disabled and only being tested. It is not earnable."],
+      es: ["Este logro está deshabilitado y solo en pruebas. No se puede conseguir."],
+    },
     tiers: [
       {
         tier: "bronze",
         label: "x2",
         emoji: "🥉",
         hex: "#F9BFA7",
-        criterion: "8 open source pull requests merged.",
+        criterion: {
+          en: "8 open source pull requests merged.",
+          es: "8 pull requests open source fusionados.",
+        },
       },
       {
         tier: "silver",
         label: "x3",
         emoji: "🥈",
         hex: "#E1E4E4",
-        criterion: "16 open source pull requests merged.",
+        criterion: {
+          en: "16 open source pull requests merged.",
+          es: "16 pull requests open source fusionados.",
+        },
       },
       {
         tier: "gold",
         label: "x4",
         emoji: "🥇",
         hex: "#FAE57E",
-        criterion: "64 open source pull requests merged.",
+        criterion: {
+          en: "64 open source pull requests merged.",
+          es: "64 pull requests open source fusionados.",
+        },
       },
     ],
     references: [],
   },
 ];
-
-export const tierLabels: Record<"bronze" | "silver" | "gold", { label: string; hex: string }> = {
-  bronze: { label: "x2", hex: "#F9BFA7" },
-  silver: { label: "x3", hex: "#E1E4E4" },
-  gold: { label: "x4", hex: "#FAE57E" },
-};
