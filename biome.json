@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!**/.astro", "!**/dist", "!**/node_modules", "!**/coverage", "!**/*.astro"]
+    "includes": [
+      "**",
+      "!**/.astro",
+      "!**/dist",
+      "!**/node_modules",
+      "!**/coverage",
+      "!**/*.astro",
+      "!**/.agents"
+    ]
   },
   "formatter": {
     "enabled": true,
