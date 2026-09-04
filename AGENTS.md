@@ -40,6 +40,7 @@ bun run typecheck               # tsc --noEmit
 bun run test                    # vitest run (unit tests)
 bun run test:coverage           # vitest with coverage
 bun run test:e2e                # playwright (requires bun run build first)
+bun run sync                    # compare local dataset with the upstream achievements README
 ```
 
 Always run `bun run lint`, `bun run typecheck`, and `bun run test` before committing.
@@ -92,3 +93,12 @@ and `prefers-color-scheme` detection. No flash-of-wrong-theme (FOUC) — impleme
 - Mobile-first, responsive layout.
 - Semantic HTML, correct heading hierarchy, ARIA labels on interactive elements.
 - SEO meta tags per page (title, description, Open Graph, canonical).
+
+## Data sync
+
+- `bun run sync` fetches the upstream achievements README and compares it with
+  `src/data/achievements.ts`, reporting added/removed achievements and tier changes.
+- The script never rewrites the dataset: local data is curated (translations, guides),
+  so apply reported changes manually.
+- Parsing and diff logic lives in `src/lib/markdown.ts` and `src/lib/achievement-sync.ts`;
+  the CLI entrypoint is `scripts/sync.ts`.

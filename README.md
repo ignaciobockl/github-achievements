@@ -52,6 +52,7 @@ Open http://localhost:4321.
 | `bun run test` | Vitest unit tests |
 | `bun run test:coverage` | Unit tests with coverage |
 | `bun run test:e2e` | Playwright end-to-end tests |
+| `bun run sync` | Compare the local dataset with the upstream achievements README |
 
 ## Project structure
 
