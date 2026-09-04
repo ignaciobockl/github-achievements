@@ -1,7 +1,7 @@
 {
   "name": "github-achievements",
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A comprehensive guide to all GitHub profile achievements: earnable and retired badges, tiers, guides to unlock them, and repository analysis.",
   "private": true,
   "engines": {
@@ -23,6 +23,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
+    "sync": "bun run scripts/sync.ts",
     "prepare": "husky"
   },
   "dependencies": {

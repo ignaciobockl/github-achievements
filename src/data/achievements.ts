@@ -449,14 +449,14 @@ export const achievements: Achievement[] = [
         label: "x2",
         emoji: "🥉",
         hex: "#F9BFA7",
-        criterion: { en: "16 heart reactions.", es: "16 reacciones de corazón." },
+        criterion: { en: "16 ❤️ reactions.", es: "16 reacciones de corazón." },
       },
       {
         tier: "silver",
         label: "x3",
         emoji: "🥈",
         hex: "#E1E4E4",
-        criterion: { en: "128 heart reactions.", es: "128 reacciones de corazón." },
+        criterion: { en: "128 ❤️ reactions.", es: "128 reacciones de corazón." },
       },
       {
         tier: "gold",
@@ -464,7 +464,7 @@ export const achievements: Achievement[] = [
         emoji: "🥇",
         hex: "#FAE57E",
         criterion: {
-          en: "Unknown number of heart reactions.",
+          en: "??? ❤️ reactions.",
           es: "Número desconocido de reacciones de corazón.",
         },
       },
@@ -498,7 +498,7 @@ export const achievements: Achievement[] = [
         emoji: "🥉",
         hex: "#F9BFA7",
         criterion: {
-          en: "8 open source pull requests merged.",
+          en: "8 open source pull request merged.",
           es: "8 pull requests open source fusionados.",
         },
       },
@@ -508,7 +508,7 @@ export const achievements: Achievement[] = [
         emoji: "🥈",
         hex: "#E1E4E4",
         criterion: {
-          en: "16 open source pull requests merged.",
+          en: "16 open source pull request merged.",
           es: "16 pull requests open source fusionados.",
         },
       },
@@ -518,7 +518,7 @@ export const achievements: Achievement[] = [
         emoji: "🥇",
         hex: "#FAE57E",
         criterion: {
-          en: "64 open source pull requests merged.",
+          en: "64 open source pull request merged.",
           es: "64 pull requests open source fusionados.",
         },
       },
