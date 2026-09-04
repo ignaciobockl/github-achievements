@@ -57,6 +57,37 @@ export interface Messages {
     silver: string;
     gold: string;
   };
+  repoAnalyzer: {
+    title: string;
+    subtitle: string;
+    usernameLabel: string;
+    usernamePlaceholder: string;
+    repoLabel: string;
+    repoPlaceholder: string;
+    analyzeButton: string;
+    analyzingButton: string;
+    loading: string;
+    error: string;
+    rateLimitError: string;
+    notFoundError: string;
+    genericError: string;
+    retryButton: string;
+    achievements: string;
+    noAchievements: string;
+    repoInfo: string;
+    stars: string;
+    forks: string;
+    watchers: string;
+    language: string;
+    createdAt: string;
+    updatedAt: string;
+    pushedAt: string;
+    tier: string;
+    progress: string;
+    nextTier: string;
+    earnedAt: string;
+    badge: string;
+  };
 }
 
 export const translations: Record<Locale, Messages> = {
@@ -118,6 +149,37 @@ export const translations: Record<Locale, Messages> = {
       silver: "Silver",
       gold: "Gold",
     },
+    repoAnalyzer: {
+      title: "Repository Analyzer",
+      subtitle: "Analyze GitHub achievements for a user or repository",
+      usernameLabel: "GitHub Username",
+      usernamePlaceholder: "Enter GitHub username",
+      repoLabel: "Repository (optional)",
+      repoPlaceholder: "owner/repo (e.g., octocat/Hello-World)",
+      analyzeButton: "Analyze",
+      analyzingButton: "Analyzing...",
+      loading: "Fetching data...",
+      error: "Error",
+      rateLimitError: "Rate limit exceeded. Please wait before trying again.",
+      notFoundError: "User or repository not found.",
+      genericError: "An error occurred while fetching data.",
+      retryButton: "Try Again",
+      achievements: "Achievements",
+      noAchievements: "No achievements found for this user.",
+      repoInfo: "Repository Info",
+      stars: "Stars",
+      forks: "Forks",
+      watchers: "Watchers",
+      language: "Language",
+      createdAt: "Created",
+      updatedAt: "Updated",
+      pushedAt: "Last Push",
+      tier: "Tier",
+      progress: "Progress",
+      nextTier: "Next tier",
+      earnedAt: "Earned at",
+      badge: "Badge",
+    },
   },
   es: {
     meta: {
@@ -176,6 +238,37 @@ export const translations: Record<Locale, Messages> = {
       bronze: "Bronce",
       silver: "Plata",
       gold: "Oro",
+    },
+    repoAnalyzer: {
+      title: "Analizador de Repositorio",
+      subtitle: "Analiza los logros de GitHub de un usuario o repositorio",
+      usernameLabel: "Usuario de GitHub",
+      usernamePlaceholder: "Introduce el usuario de GitHub",
+      repoLabel: "Repositorio (opcional)",
+      repoPlaceholder: "propietario/repo (ej. octocat/Hello-World)",
+      analyzeButton: "Analizar",
+      analyzingButton: "Analizando...",
+      loading: "Obteniendo datos...",
+      error: "Error",
+      rateLimitError: "Límite de peticiones excedido. Espera antes de volver a intentarlo.",
+      notFoundError: "Usuario o repositorio no encontrado.",
+      genericError: "Ocurrió un error al obtener los datos.",
+      retryButton: "Reintentar",
+      achievements: "Logros",
+      noAchievements: "No se encontraron logros para este usuario.",
+      repoInfo: "Información del repositorio",
+      stars: "Estrellas",
+      forks: "Bifurcaciones",
+      watchers: "Observadores",
+      language: "Lenguaje",
+      createdAt: "Creado",
+      updatedAt: "Actualizado",
+      pushedAt: "Último push",
+      tier: "Nivel",
+      progress: "Progreso",
+      nextTier: "Siguiente nivel",
+      earnedAt: "Conseguido el",
+      badge: "Insignia",
     },
   },
 };
