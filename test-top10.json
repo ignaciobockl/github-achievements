@@ -1,0 +1,38 @@
+{
+  "generated_at": "2024-01-15T12:00:00.000Z",
+  "users": [
+    {
+      "username": "testuser",
+      "avatar_url": "https://github.com/testuser.png",
+      "profile_url": "https://github.com/testuser",
+      "total_achievements": 3,
+      "tier_breakdown": {
+        "default": 1,
+        "bronze": 1,
+        "silver": 1,
+        "gold": 0
+      },
+      "score": 10.5,
+      "achievements": [
+        {
+          "slug": "a",
+          "title": "A",
+          "tier": "gold",
+          "earned_at": "2024-01-01T00:00:00Z"
+        },
+        {
+          "slug": "b",
+          "title": "B",
+          "tier": "silver",
+          "earned_at": "2024-01-01T00:00:00Z"
+        },
+        {
+          "slug": "c",
+          "title": "C",
+          "tier": "bronze",
+          "earned_at": "2024-01-01T00:00:00Z"
+        }
+      ]
+    }
+  ]
+}
