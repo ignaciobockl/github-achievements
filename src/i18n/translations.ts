@@ -88,6 +88,19 @@ export interface Messages {
     earnedAt: string;
     badge: string;
   };
+  top10: {
+    title: string;
+    subtitle: string;
+    generated_at: string;
+    rank: string;
+    user: string;
+    achievements: string;
+    tiers: string;
+    score: string;
+    no_data: string;
+    loading: string;
+    error: string;
+  };
 }
 
 export const translations: Record<Locale, Messages> = {
@@ -180,6 +193,19 @@ export const translations: Record<Locale, Messages> = {
       earnedAt: "Earned at",
       badge: "Badge",
     },
+    top10: {
+      title: "Top 10 Leaderboard",
+      subtitle: "GitHub users with the most achievements",
+      generated_at: "Generated at",
+      rank: "Rank",
+      user: "User",
+      achievements: "Achievements",
+      tiers: "Tiers",
+      score: "Score",
+      no_data: "No data available",
+      loading: "Loading leaderboard...",
+      error: "Failed to load leaderboard",
+    },
   },
   es: {
     meta: {
@@ -269,6 +295,19 @@ export const translations: Record<Locale, Messages> = {
       nextTier: "Siguiente nivel",
       earnedAt: "Conseguido el",
       badge: "Insignia",
+    },
+    top10: {
+      title: "Clasificación Top 10",
+      subtitle: "Usuarios de GitHub con más logros",
+      generated_at: "Generado el",
+      rank: "Posición",
+      user: "Usuario",
+      achievements: "Logros",
+      tiers: "Niveles",
+      score: "Puntuación",
+      no_data: "No hay datos disponibles",
+      loading: "Cargando clasificación...",
+      error: "Error al cargar la clasificación",
     },
   },
 };

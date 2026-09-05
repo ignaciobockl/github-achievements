@@ -102,3 +102,12 @@ and `prefers-color-scheme` detection. No flash-of-wrong-theme (FOUC) — impleme
   so apply reported changes manually.
 - Parsing and diff logic lives in `src/lib/markdown.ts` and `src/lib/achievement-sync.ts`;
   the CLI entrypoint is `scripts/sync.ts`.
+
+## Top 10 Global Leaderboard
+
+- **Feature**: A global leaderboard showing the top 10 users with the most and highest-tier GitHub achievements.
+- **Data source**: GitHub REST API — fetches public achievement data for known high-achievement users.
+- **Cron job**: Runs daily at 02:00 UTC via GitHub Actions (`.github/workflows/top10-sync.yml`) to keep the leaderboard fresh.
+- **Sync command**: `bun run top10:sync` (entrypoint: `scripts/top10-sync.ts`) — manually triggers a leaderboard refresh.
+- **Storage**: Results are committed to `public/data/top10.json` and served statically (no runtime API calls).
+- **Display**: Rendered on the homepage via the `Top10Leaderboard` React component (`src/components/Top10Leaderboard.tsx`).
