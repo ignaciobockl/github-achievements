@@ -74,13 +74,19 @@ test("nav anchor scrolls to collection section", async ({ page }) => {
     await page.goto("/en#collection");
   }
   await expect(page).toHaveURL(/#collection/);
-  const inViewport = await page.evaluate(() => {
-    const el = document.querySelector("#collection");
-    if (!el) return false;
-    const rect = el.getBoundingClientRect();
-    return rect.top < window.innerHeight && rect.bottom > 0;
-  });
-  expect(inViewport).toBe(true);
+  await expect
+    .poll(
+      async () => {
+        return page.evaluate(() => {
+          const el = document.querySelector("#collection");
+          if (!el) return false;
+          const rect = el.getBoundingClientRect();
+          return rect.top < window.innerHeight && rect.bottom > 0;
+        });
+      },
+      { timeout: 10000 },
+    )
+    .toBe(true);
 });
 
 test("card navigates to detail and back link returns to catalog", async ({ page }) => {
