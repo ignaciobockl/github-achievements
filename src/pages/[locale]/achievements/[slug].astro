@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import { ThemeToggle } from "../../../components/ThemeToggle";
+import { SkinToneSelector } from "../../../components/SkinToneSelector";
 import { achievements } from "../../../data/achievements";
 import { localizeAchievement } from "../../../data/localize";
 import { translations } from "../../../i18n/translations";
@@ -51,6 +52,7 @@ const tierBadges: Record<string, string | undefined> = {
 
     <div class="flex items-center gap-4">
       <img
+        id="achievement-badge"
         src={achievement.badge.default}
         alt={`${achievement.title} badge`}
         width={80}
@@ -63,6 +65,26 @@ const tierBadges: Record<string, string | undefined> = {
           {t.categories[achievement.category]} · {t.earnability[achievement.earnability]}
         </p>
       </div>
+    </div>
+
+    <div class="mt-4">
+      <SkinToneSelector
+        client:load
+        labels={{
+          default: t.skinTone.default,
+          light: t.skinTone.light,
+          "light-medium": t.skinTone.lightMedium,
+          medium: t.skinTone.medium,
+          "medium-dark": t.skinTone.mediumDark,
+          dark: t.skinTone.dark,
+        }}
+        label={t.skinTone.label}
+        onlyDefaultLabel={t.skinTone.onlyDefault}
+        defaultSrc={achievement.badge.default}
+        slug={achievement.slug}
+        hasVariants={Boolean(achievement.variants && achievement.variants.length > 0)}
+        imgId="achievement-badge"
+      />
     </div>
 
     <p class="mt-6 text-lg text-neutral-700 dark:text-neutral-300">{achievement.summary}</p>

@@ -1,4 +1,4 @@
-import type { Achievement } from "./types";
+import type { Achievement, SkinTone } from "./types";
 
 const BADGE_BASE =
   "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images";
@@ -83,6 +83,7 @@ export const achievements: Achievement[] = [
     badge: {
       default: `${BADGE_BASE}/quickdraw-default.png`,
     },
+    variants: ["light", "light-medium", "medium", "medium-dark", "dark"] as SkinTone[],
     summary: {
       en: "Close an issue or pull request within 5 minutes of opening it.",
       es: "Cierra un issue o pull request dentro de los 5 minutos de abrirlo.",
@@ -112,6 +113,7 @@ export const achievements: Achievement[] = [
       silver: `${BADGE_BASE}/tiers/starstruck-silver.png`,
       gold: `${BADGE_BASE}/tiers/starstruck-gold.png`,
     },
+    variants: ["light", "light-medium", "medium", "medium-dark", "dark"] as SkinTone[],
     summary: {
       en: "Create a repository that earns stars.",
       es: "Crea un repositorio que acumule estrellas.",

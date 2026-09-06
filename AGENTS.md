@@ -111,3 +111,10 @@ and `prefers-color-scheme` detection. No flash-of-wrong-theme (FOUC) — impleme
 - **Sync command**: `bun run top10:sync` (entrypoint: `scripts/top10-sync.ts`) — manually triggers a leaderboard refresh.
 - **Storage**: Results are committed to `public/data/top10.json` and served statically (no runtime API calls).
 - **Display**: Rendered on the homepage via the `Top10Leaderboard` React component (`src/components/Top10Leaderboard.tsx`).
+
+## Skin tones
+
+- Badge skin tones supported for Quickdraw and Starstruck (default tier only). Assets downloaded to `public/badges/variants/` as `/badges/variants/{slug}-default--{tone}.png` (6 tones: default, light, light-medium, medium, medium-dark, dark).
+- Helper `src/theme/skin-tone.ts` mirrors `src/theme/theme.ts` (`gha-skin-tone` localStorage, `badgeVariantUrl`, `resolveVariantUrl`).
+- Selector `src/components/SkinToneSelector.tsx` (React island, `client:load`) with preview on `src/pages/[locale]/achievements/[slug].astro` (`img#achievement-badge`). Landing auto-applies stored tone via `is:inline` script on `img[data-variant-slug]`.
+- i18n `skinTone` keys in `src/i18n/translations.ts` (en/es).

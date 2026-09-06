@@ -1,5 +1,5 @@
 import type { Locale } from "../i18n";
-import type { Achievement, TierDefinition } from "./types";
+import type { Achievement, SkinTone, TierDefinition } from "./types";
 
 export interface LocalizedTier {
   tier: TierDefinition["tier"];
@@ -21,6 +21,7 @@ export interface LocalizedAchievement {
   tiers: LocalizedTier[];
   references: { label: string; url: string }[];
   previousNames?: string[];
+  variants?: SkinTone[];
 }
 
 export function localizeAchievement(
@@ -48,5 +49,6 @@ export function localizeAchievement(
       url: ref.url,
     })),
     previousNames: achievement.previousNames?.map((name) => name[locale]),
+    variants: achievement.variants,
   };
 }
