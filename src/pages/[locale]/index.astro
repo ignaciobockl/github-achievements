@@ -126,6 +126,8 @@ const totalBadges = localized.length;
                       height={48}
                       loading="lazy"
                       class="h-12 w-12 object-contain"
+                      data-variant-slug={achievement.variants ? achievement.slug : undefined}
+                      data-base-src={achievement.variants ? achievement.badge.default : undefined}
                     />
                     <h3 class="font-semibold leading-tight">{achievement.title}</h3>
                   </div>
@@ -280,4 +282,21 @@ const totalBadges = localized.length;
       </div>
     </div>
   </footer>
+
+  <script is:inline>
+    (function () {
+      try {
+        var tone = localStorage.getItem("gha-skin-tone");
+        if (!tone || tone === "default") return;
+        var valid = ["light", "light-medium", "medium", "medium-dark", "dark"];
+        if (valid.indexOf(tone) === -1) return;
+        var imgs = document.querySelectorAll('img[data-variant-slug]');
+        for (var i = 0; i < imgs.length; i++) {
+          var img = imgs[i];
+          var slug = img.getAttribute("data-variant-slug");
+          if (slug) img.src = "/badges/variants/" + slug + "-default--" + tone + ".png";
+        }
+      } catch (e) {}
+    })();
+  </script>
 </Layout>

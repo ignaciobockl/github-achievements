@@ -10,7 +10,7 @@ A comprehensive, always-up-to-date guide to every [GitHub profile achievement](h
 - **Unlock guides** — step-by-step instructions and exact tier thresholds (bronze, silver, gold).
 - **Repository analysis** — paste a username/repo and see which achievements you already have and how close you are to the next tier, via the public GitHub REST API.
 - **Global top 10** — a leaderboard of the users with the most and highest-tier achievements.
-- **Badge skin tones** — all emoji skin-tone variants of the badges.
+- **Badge skin tones** — Quickdraw and Starstruck variant selector with local assets.
 - **Multilingual** — automatic locale detection (browser `Accept-Language`) with a clean fallback.
 - **Dark / light / auto theme** — follows your system by default, with manual override.
 - **PWA** — installable, works offline.

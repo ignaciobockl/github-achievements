@@ -161,6 +161,17 @@ export interface Messages {
       links: string;
     };
   };
+  skinTone: {
+    label: string;
+    default: string;
+    light: string;
+    lightMedium: string;
+    medium: string;
+    mediumDark: string;
+    dark: string;
+    onlyDefault: string;
+    preview: string;
+  };
 }
 
 export const translations: Record<Locale, Messages> = {
@@ -328,6 +339,17 @@ export const translations: Record<Locale, Messages> = {
         links: "GitHub Criteria, Accessibility",
       },
     },
+    skinTone: {
+      label: "Skin tone",
+      default: "Default ✌️",
+      light: "Light ✌🏻",
+      lightMedium: "Light-medium ✌🏼",
+      medium: "Medium ✌🏽",
+      mediumDark: "Medium-dark ✌🏾",
+      dark: "Dark ✌🏿",
+      onlyDefault: "Only available in default tone",
+      preview: "Badge preview",
+    },
   },
   es: {
     meta: {
@@ -493,6 +515,17 @@ export const translations: Record<Locale, Messages> = {
         brand: "Vitrina editorial — zinc + emerald. Satoshi + Geist Mono.",
         links: "Criterios GitHub, Accesibilidad",
       },
+    },
+    skinTone: {
+      label: "Tono de piel",
+      default: "Predeterminado ✌️",
+      light: "Claro ✌🏻",
+      lightMedium: "Claro-medio ✌🏼",
+      medium: "Medio ✌🏽",
+      mediumDark: "Medio-oscuro ✌🏾",
+      dark: "Oscuro ✌🏿",
+      onlyDefault: "Solo disponible en tono predeterminado",
+      preview: "Vista previa",
     },
   },
 };
