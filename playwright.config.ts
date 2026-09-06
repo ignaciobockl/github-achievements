@@ -15,6 +15,14 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "mobile-chromium",
+      use: { ...devices["Pixel 7"] },
+    },
+    {
+      name: "tablet-chromium",
+      use: { ...devices["iPad Pro 11"] },
+    },
   ],
   webServer: {
     command: "bun run preview",

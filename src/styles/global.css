@@ -2,24 +2,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap")
-    format("woff2");
-  font-weight: 400 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Geist Mono";
-  src: url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap")
-    format("woff2");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   --bg: #ffffff;
   --surface: #fafafa;
