@@ -4,23 +4,46 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description: string;
+  locale: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, locale } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL("/og-image.png", Astro.site).toString();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#0d1117" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={locale} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
+
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link rel="preload" as="font" type="font/woff2" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;700&display=swap" crossorigin />
+
     <title>{title}</title>
     <script is:inline>
       const key = "gha-theme";
@@ -33,7 +56,7 @@ const { title, description } = Astro.props;
       document.documentElement.dataset.theme = theme;
     </script>
   </head>
-  <body class="bg-white text-neutral-900 antialiased dark:bg-[#0d1117] dark:text-neutral-100">
+  <body>
     <slot />
   </body>
 </html>
