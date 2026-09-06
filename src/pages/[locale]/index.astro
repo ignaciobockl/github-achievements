@@ -1,10 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import App from "../../components/App";
 import { achievements } from "../../data/achievements";
 import { localizeAchievement } from "../../data/localize";
 import { translations } from "../../i18n/translations";
 import { locales, type Locale } from "../../i18n";
+import { ThemeToggle } from "../../components/ThemeToggle";
 
 export function getStaticPaths() {
   return locales.map((locale) => ({ params: { locale } }));
@@ -13,8 +13,271 @@ export function getStaticPaths() {
 const locale = Astro.params.locale as Locale;
 const t = translations[locale];
 const localized = achievements.map((a) => localizeAchievement(a, locale));
+
+// Count achievements with tiers for the stats
+const achievementsWithTiers = localized.filter((a) => a.tiers.length > 0).length;
+const totalBadges = localized.length;
 ---
 
-<Layout title={t.meta.title} description={t.meta.description}>
-  <App client:load locale={locale} achievements={localized} t={t} homePath={`/${locale}`} />
+<Layout title={t.landing.meta.title} description={t.landing.meta.description} locale={locale}>
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Navigation -->
+  <header class="border-b border-neutral-200 dark:border-neutral-800 sticky top-0 z-50 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-sm">
+    <div class="wrap py-4">
+      <nav class="flex items-center justify-between gap-4" aria-label="Main navigation">
+        <a href={`/${locale}`} class="font-bold text-xl tracking-tight" aria-label={t.landing.nav.home}>
+          {t.landing.meta.title}
+        </a>
+        <div class="flex items-center gap-6">
+          <div class="hidden md:flex items-center gap-6">
+            <a href={`/${locale}#collection`} class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+              {t.landing.nav.collection}
+            </a>
+            <a href={`/${locale}#tiers`} class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+              {t.landing.nav.tiers}
+            </a>
+            <a href={`/${locale}#criteria`} class="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+              {t.landing.nav.criteria}
+            </a>
+          </div>
+          <ThemeToggle
+            labels={t.theme}
+            label={t.theme.label}
+            client:visible
+          />
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="section" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <p class="kicker" aria-label="Category">
+              <span aria-hidden="true">●</span>
+              {t.landing.kicker.prefix}
+            </p>
+            <h1 id="hero-title" class="mt-4 text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
+              {t.landing.hero.title}
+            </h1>
+            <p class="mt-6 text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
+              {t.landing.hero.lead}
+            </p>
+            <div class="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href={`/${locale}#collection`}
+                class="cta cta-primary"
+              >
+                {t.landing.hero.cta}
+              </a>
+            </div>
+            <p class="mt-6 text-sm text-neutral-500 dark:text-neutral-500">
+              {t.landing.hero.meta}
+            </p>
+          </div>
+
+          <!-- Stats Aside -->
+          <aside class="stat" aria-label="Showcase statistics">
+            <div class="stat-item">
+              <div class="stat-value">{t.landing.stats.value1}</div>
+              <div class="stat-label">{t.landing.stats.label1}</div>
+              <div class="text-xs text-neutral-400 mt-1 font-mono">{t.landing.stats.note1}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{t.landing.stats.value2}</div>
+              <div class="stat-label">{t.landing.stats.label2}</div>
+              <div class="text-xs text-neutral-400 mt-1 font-mono">{t.landing.stats.note2}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">{t.landing.stats.value3}</div>
+              <div class="stat-label">{t.landing.stats.label3}</div>
+              <div class="text-xs text-neutral-400 mt-1 font-mono">{t.landing.stats.note3}</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collection Section -->
+    <section id="collection" class="section" aria-labelledby="collection-title">
+      <div class="wrap">
+        <header class="section-header">
+          <h2 id="collection-title" class="section-title">
+            {t.landing.section.collectionTitle}
+          </h2>
+          <p class="section-subtitle">{t.landing.section.collectionSubtitle}</p>
+        </header>
+
+        <div class="grid grid-3" role="list" aria-label="Achievement collection">
+          {localized.map((achievement) => (
+            <article class="card" role="listitem">
+              <a href={`/${locale}/achievements/${achievement.slug}`} class="block h-full">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <img
+                      src={achievement.badge.default}
+                      alt=""
+                      width={48}
+                      height={48}
+                      loading="lazy"
+                      class="h-12 w-12 object-contain"
+                    />
+                    <h3 class="font-semibold leading-tight">{achievement.title}</h3>
+                  </div>
+                  {achievement.earnable ? (
+                    <span class="badge">{t.catalog.earnable}</span>
+                  ) : (
+                    <span class="badge" style="background-color: var(--muted); color: var(--surface);">
+                      {t.catalog.notEarnable}
+                    </span>
+                  )}
+                </div>
+
+                <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-400 line-clamp-3">
+                  {achievement.summary}
+                </p>
+
+                {achievement.tiers.length > 0 && (
+                  <div class="mt-4 flex flex-wrap items-center gap-2" aria-label={t.landing.tier.badge}>
+                    {achievement.tiers.map((tier) => (
+                      <span
+                        key={tier.tier}
+                        class="tier"
+                        style={`--tier-color: ${tier.hex}; border-color: ${tier.hex};`}
+                      >
+                        <span
+                          class="tier-icon"
+                          role="img"
+                          aria-label={t.tierNames[tier.tier as keyof typeof t.tierNames]}
+                        >
+                          {tier.emoji}
+                        </span>
+                        <span>{tier.label}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <div class="mt-4 flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-500">
+                  <span>{t.categories[achievement.category]}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{t.earnability[achievement.earnability]}</span>
+                  {achievement.tiers.length > 0 && (
+                    <>
+                      <span aria-hidden="true">·</span>
+                      <span>
+                        {achievement.tiers.length} {t.catalog.tiers.toLowerCase()}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Tiers Section -->
+    <section id="tiers" class="section bg-neutral-50 dark:bg-neutral-900" aria-labelledby="tiers-title">
+      <div class="wrap">
+        <header class="section-header">
+          <h2 id="tiers-title" class="section-title">
+            {t.landing.section.tiersTitle}
+          </h2>
+          <p class="section-subtitle">{t.landing.section.tiersSubtitle}</p>
+        </header>
+
+        <div class="grid grid-3 max-w-4xl mx-auto">
+          {[
+            { tier: "bronze", label: "x2", emoji: "🥉", hex: "#F9BFA7" },
+            { tier: "silver", label: "x3", emoji: "🥈", hex: "#E1E4E4" },
+            { tier: "gold", label: "x4", emoji: "🥇", hex: "#FAE57E" },
+          ].map((tier) => (
+            <article class="card text-center p-8" style={`--tier-color: ${tier.hex};`}>
+              <div class="text-4xl mb-3" role="img" aria-label={t.tierNames[tier.tier as keyof typeof t.tierNames]}>
+                {tier.emoji}
+              </div>
+              <h3 class="text-xl font-bold mb-2" style="color: var(--tier-color);">
+                {t.tierNames[tier.tier as keyof typeof t.tierNames]}
+              </h3>
+              <span class="tier" style={`background-color: ${tier.hex}; color: #000; border-color: ${tier.hex};`}>
+                {tier.label}
+              </span>
+              <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+                {t.landing.tier.badge} {t.tierNames[tier.tier as keyof typeof t.tierNames].toLowerCase()}: {t.landing.tier.criteria}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Criteria Section -->
+    <section id="criteria" class="section" aria-labelledby="criteria-title">
+      <div class="wrap max-w-3xl">
+        <header class="section-header">
+          <h2 id="criteria-title" class="section-title">
+            {t.landing.note.title}
+          </h2>
+        </header>
+
+        <div class="prose prose-neutral dark:prose-invert max-w-none">
+          <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            {t.landing.note.body}
+          </p>
+          <div class="mt-6 p-4 rounded-lg bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
+            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+              {t.landing.note.portNote}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section bg-neutral-900 dark:bg-neutral-950 text-white" aria-labelledby="cta-title">
+      <div class="wrap text-center">
+        <h2 id="cta-title" class="section-title text-white">
+          {t.landing.cta.title}
+        </h2>
+        <p class="section-subtitle text-neutral-300 max-w-2xl mx-auto">
+          {t.landing.cta.lead}
+        </p>
+        <div class="mt-8">
+          <a href={`/${locale}/analyze`} class="cta cta-primary">
+            {t.landing.cta.button}
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-neutral-500 font-mono">
+          {t.landing.cta.footnote}
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-200 dark:border-neutral-800 py-12" role="contentinfo">
+    <div class="wrap">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <p class="text-sm text-neutral-500 dark:text-neutral-500">
+          {t.landing.footer.brand}
+        </p>
+        <div class="flex items-center gap-4 text-sm">
+          <a href="https://github.com/github/profile-achievements" target="_blank" rel="noopener noreferrer" class="text-neutral-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+            GitHub Criteria
+          </a>
+          <span aria-hidden="true" class="text-neutral-300 dark:text-neutral-600">·</span>
+          <a href="#main-content" class="text-neutral-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+            {t.landing.footer.links.split(", ")[1]}
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </Layout>

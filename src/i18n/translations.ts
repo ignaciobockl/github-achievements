@@ -7,6 +7,9 @@ export interface Messages {
   };
   nav: {
     home: string;
+    collection: string;
+    tiers: string;
+    criteria: string;
   };
   theme: {
     label: string;
@@ -101,6 +104,63 @@ export interface Messages {
     loading: string;
     error: string;
   };
+  landing: {
+    meta: {
+      title: string;
+      description: string;
+    };
+    nav: {
+      home: string;
+      collection: string;
+      tiers: string;
+      criteria: string;
+    };
+    kicker: {
+      prefix: string;
+    };
+    hero: {
+      title: string;
+      lead: string;
+      cta: string;
+      meta: string;
+    };
+    stats: {
+      label1: string;
+      value1: string;
+      note1: string;
+      label2: string;
+      value2: string;
+      note2: string;
+      label3: string;
+      value3: string;
+      note3: string;
+    };
+    section: {
+      collectionTitle: string;
+      collectionSubtitle: string;
+      tiersTitle: string;
+      tiersSubtitle: string;
+    };
+    tier: {
+      badge: string;
+      criteria: string;
+    };
+    note: {
+      title: string;
+      body: string;
+      portNote: string;
+    };
+    cta: {
+      title: string;
+      lead: string;
+      button: string;
+      footnote: string;
+    };
+    footer: {
+      brand: string;
+      links: string;
+    };
+  };
 }
 
 export const translations: Record<Locale, Messages> = {
@@ -112,6 +172,9 @@ export const translations: Record<Locale, Messages> = {
     },
     nav: {
       home: "Home",
+      collection: "Collection",
+      tiers: "Tiers",
+      criteria: "Criteria",
     },
     theme: {
       label: "Theme",
@@ -206,6 +269,65 @@ export const translations: Record<Locale, Messages> = {
       loading: "Loading leaderboard...",
       error: "Failed to load leaderboard",
     },
+    landing: {
+      meta: {
+        title: "GitHub Achievements",
+        description:
+          "Your GitHub milestones as editorial milestones: tiers, criteria, and real progression. No empty gamification.",
+      },
+      nav: {
+        home: "Home",
+        collection: "Collection",
+        tiers: "Tiers",
+        criteria: "Criteria",
+      },
+      kicker: {
+        prefix: "Collection, GitHub Profile",
+      },
+      hero: {
+        title: "Your code milestones, counted with calm.",
+        lead: "No streaks, no points. An editorial showcase that orders your real badges by tier, shows the exact criteria, and lets the work speak.",
+        cta: "View the collection ↓",
+        meta: "9 badges, 4 with tiers",
+      },
+      stats: {
+        label1: "Badges in this showcase",
+        value1: "09",
+        note1: "src/data/achievements.ts",
+        label2: "Max tiers reached",
+        value2: "x4",
+        note2: "bronze → gold",
+        label3: "Verifiable criteria",
+        value3: "100%",
+        note3: "no invented metrics",
+      },
+      section: {
+        collectionTitle: "The collection",
+        collectionSubtitle: "Chronological catalog order. Hover: the card breathes, nothing jumps.",
+        tiersTitle: "Tiers",
+        tiersSubtitle: "Hover a card: it breathes, nothing pops.",
+      },
+      tier: {
+        badge: "Badge",
+        criteria: "criteria",
+      },
+      note: {
+        title: "How to read this page.",
+        body: "Each card shows the literal GitHub criteria. If data isn't verified, it's labeled as such; no invented numbers.",
+        portNote:
+          "To port to the repo: replace these six cards with a map over <strong>src/data/achievements.ts</strong> using <strong>src/data/localize.ts</strong>. The rest of the layout stays the same.",
+      },
+      cta: {
+        title: "Connect your profile and get your showcase ready.",
+        lead: "One link, your badges ordered, in light and dark. No plugins, no excess animations.",
+        button: "Publish my showcase →",
+        footnote: "nomin, /es and /en, no libraries",
+      },
+      footer: {
+        brand: "Editorial showcase — zinc + emerald. Satoshi + Geist Mono.",
+        links: "GitHub Criteria, Accessibility",
+      },
+    },
   },
   es: {
     meta: {
@@ -215,6 +337,9 @@ export const translations: Record<Locale, Messages> = {
     },
     nav: {
       home: "Inicio",
+      collection: "Colección",
+      tiers: "Niveles",
+      criteria: "Criterios",
     },
     theme: {
       label: "Tema",
@@ -308,6 +433,66 @@ export const translations: Record<Locale, Messages> = {
       no_data: "No hay datos disponibles",
       loading: "Cargando clasificación...",
       error: "Error al cargar la clasificación",
+    },
+    landing: {
+      meta: {
+        title: "Logros de GitHub",
+        description:
+          "Tus hitos de GitHub contados como hitos editoriales: niveles, criterios y progresión real. Sin gamificación vacía.",
+      },
+      nav: {
+        home: "Inicio",
+        collection: "Colección",
+        tiers: "Niveles",
+        criteria: "Criterios",
+      },
+      kicker: {
+        prefix: "Colección, Perfil de GitHub",
+      },
+      hero: {
+        title: "Tus hitos de código, contados con calma.",
+        lead: "Ni rachas ni puntos. Una vitrina editorial que ordena tus insignias reales por nivel, muestra el criterio exacto y deja que el trabajo hable.",
+        cta: "Ver la colección ↓",
+        meta: "9 insignias, 4 con nivel",
+      },
+      stats: {
+        label1: "Insignias en esta vitrina",
+        value1: "09",
+        note1: "src/data/achievements.ts",
+        label2: "Niveles máximos alcanzados",
+        value2: "x4",
+        note2: "bronce → oro",
+        label3: "Criterios verificables",
+        value3: "100%",
+        note3: "sin métricas inventadas",
+      },
+      section: {
+        collectionTitle: "La colección",
+        collectionSubtitle:
+          "Orden cronológico de catálogo. Pasa el cursor: la ficha respira, nada salta.",
+        tiersTitle: "Niveles",
+        tiersSubtitle: "Pasa el cursor: la ficha respira, nada salta.",
+      },
+      tier: {
+        badge: "Insignia",
+        criteria: "criterio",
+      },
+      note: {
+        title: "Cómo leer esta página.",
+        body: "Cada ficha muestra el criterio literal de GitHub. Si un dato no está verificado, se etiqueta como tal; no se inventan cifras.",
+        portNote:
+          "Para portar al repo: sustituye estas seis fichas por el map sobre <strong>src/data/achievements.ts</strong> con <strong>src/data/localize.ts</strong>. El resto del layout queda igual.",
+      },
+      cta: {
+        title: "Conecta tu perfil y deja tu vitrina lista.",
+        lead: "Un enlace, tus insignias ordenadas, en claro y oscuro. Sin plugins, sin animaciones de más.",
+        button: "Publicar mi vitrina →",
+        footnote: "nomin, /es y /en, sin librerías",
+      },
+      footer: {
+        brand: "Vitrina editorial — zinc + emerald. Satoshi + Geist Mono.",
+        links: "Criterios GitHub, Accesibilidad",
+      },
     },
   },
 };
