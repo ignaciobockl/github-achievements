@@ -4,6 +4,8 @@ A comprehensive, always-up-to-date guide to every [GitHub profile achievement](h
 
 > Discover every badge — earnable, retired, internal, and disabled — learn exactly how to unlock it and its tiers (default, bronze, silver, gold), understand badge skin tones, and analyze your repositories to track your progress.
 
+> 🌐 **Live demo:** https://github-achievements-cs6.pages.dev/en/
+
 ## Features
 
 - **Full catalog** — every GitHub achievement with badge images, category, and earnability status.
