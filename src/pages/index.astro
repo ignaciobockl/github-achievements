@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="GitHub Achievements" description="A guide to every GitHub profile achievement.">
+  <script is:inline>
+    const lang = (navigator.language || "").split("-")[0].toLowerCase();
+    const supported = ["en", "es"];
+    const locale = supported.includes(lang) ? lang : "en";
+    window.location.replace(`/${locale}`);
+  </script>
+</Layout>
