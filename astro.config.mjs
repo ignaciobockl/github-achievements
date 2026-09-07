@@ -6,7 +6,7 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://github-achievements.example.com",
+  site: "https://github-achievements-cs6.pages.dev",
   integrations: [react()],
 
   i18n: {
