@@ -34,7 +34,6 @@ export function ThemeToggle({ labels, label }: ThemeToggleProps) {
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 10px center",
     backgroundSize: "16px 16px",
-    outline: "none",
     cursor: "pointer",
   };
 

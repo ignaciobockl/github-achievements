@@ -26,6 +26,7 @@ export interface Messages {
     total: string;
     earnable: string;
     notEarnable: string;
+    filterLabel: string;
     filterAll: string;
     filterEarnable: string;
     filterObsolete: string;
@@ -40,6 +41,7 @@ export interface Messages {
     references: string;
     previousNames: string;
     back: string;
+    achievementsList: string;
   };
   categories: {
     earnable: string;
@@ -202,6 +204,7 @@ export const translations: Record<Locale, Messages> = {
       total: "achievements",
       earnable: "Earnable",
       notEarnable: "Not earnable",
+      filterLabel: "Filter achievements",
       filterAll: "All",
       filterEarnable: "Earnable",
       filterObsolete: "Obsolete",
@@ -216,6 +219,7 @@ export const translations: Record<Locale, Messages> = {
       references: "References",
       previousNames: "Previous names",
       back: "Back to all achievements",
+      achievementsList: "Achievements list",
     },
     categories: {
       earnable: "Earnable",
@@ -378,6 +382,7 @@ export const translations: Record<Locale, Messages> = {
       total: "logros",
       earnable: "Conseguible",
       notEarnable: "No conseguible",
+      filterLabel: "Filtrar logros",
       filterAll: "Todos",
       filterEarnable: "Conseguibles",
       filterObsolete: "Obsoletos",
@@ -392,6 +397,7 @@ export const translations: Record<Locale, Messages> = {
       references: "Referencias",
       previousNames: "Nombres anteriores",
       back: "Volver a todos los logros",
+      achievementsList: "Lista de logros",
     },
     categories: {
       earnable: "Conseguible",

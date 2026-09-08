@@ -10,6 +10,30 @@ interface Props {
 const { title, description, locale } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL("/og-image.png", Astro.site).toString();
+
+// Alternate language URLs for i18n
+const alternates = {
+  en: new URL(Astro.url.pathname.replace(/^\/es/, ""), "https://github-achievements-cs6.pages.dev").toString(),
+  es: new URL(Astro.url.pathname.replace(/^\/en/, "/es"), "https://github-achievements-cs6.pages.dev").toString(),
+};
+
+// JSON-LD structured data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "GitHub Achievements",
+  url: Astro.site,
+  description: "A comprehensive guide to all GitHub profile achievements: earnable and retired badges, tiers, guides to unlock them, and repository analysis.",
+  inLanguage: locale,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${Astro.site}{locale}/search?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
 ---
 
 <!doctype html>
@@ -17,10 +41,16 @@ const ogImage = new URL("/og-image.png", Astro.site).toString();
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Alternate language links for i18n SEO -->
+    <link rel="alternate" hreflang="en" href={alternates.en} />
+    <link rel="alternate" hreflang="es" href={alternates.es} />
+    <link rel="alternate" hreflang="x-default" href={alternates.en} />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -28,11 +58,13 @@ const ogImage = new URL("/og-image.png", Astro.site).toString();
     <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content={locale} />
+    <meta property="og:site_name" content="GitHub Achievements" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:site" content="@github" />
 
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)" />
@@ -41,8 +73,11 @@ const ogImage = new URL("/og-image.png", Astro.site).toString();
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 
     <title>{title}</title>
     <script is:inline>
@@ -58,5 +93,139 @@ const ogImage = new URL("/og-image.png", Astro.site).toString();
   </head>
   <body>
     <slot />
+
+    <!-- Offline banner -->
+    <div
+      id="offline-banner"
+      style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #dc2626; color: white; padding: 12px 16px; text-align: center; font-size: 14px; font-weight: 500; z-index: 10000; box-shadow: 0 -2px 8px rgba(0,0,0,0.15);"
+      role="status"
+      aria-live="polite"
+    >
+      You are offline. Some features may be unavailable.
+    </div>
+
+    <!-- Service Worker Registration & Install Prompt -->
+    <script is:inline>
+      // Service Worker Registration
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          try {
+            const registration = await navigator.serviceWorker.register("/sw.js", {
+              scope: "/",
+            });
+            console.log("[SW] Registered:", registration.scope);
+
+            // Check for updates periodically
+            setInterval(() => {
+              registration.update();
+            }, 60 * 60 * 1000); // every hour
+          } catch (error) {
+            console.error("[SW] Registration failed:", error);
+          }
+        });
+
+        // Listen for controller change (new SW activated)
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
+      }
+
+      // Install Prompt Handling
+      let deferredPrompt = null;
+      const installPromptKey = "gha-install-dismissed";
+
+      window.addEventListener("beforeinstallprompt", (event) => {
+        // Prevent the mini-infobar from appearing on mobile
+        event.preventDefault();
+        deferredPrompt = event;
+
+        // Check if user previously dismissed
+        const dismissed = localStorage.getItem(installPromptKey);
+        if (!dismissed) {
+          showInstallPrompt();
+        }
+      });
+
+      function showInstallPrompt() {
+        // Create install banner
+        const banner = document.createElement("div");
+        banner.id = "install-banner";
+        banner.style.cssText = `
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: #10b981;
+          color: #0d1117;
+          padding: 14px 16px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 500;
+          z-index: 10000;
+          box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        `;
+        banner.innerHTML = `
+          <span>Install GitHub Achievements for offline access</span>
+          <button id="install-btn" style="background: #0d1117; color: #10b981; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">Install</button>
+          <button id="dismiss-btn" style="background: transparent; color: #0d1117; border: 1px solid #0d1117; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; font-size: 13px;">Later</button>
+        `;
+        document.body.appendChild(banner);
+
+        banner.querySelector("#install-btn").addEventListener("click", async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === "accepted") {
+              console.log("[PWA] User accepted install prompt");
+            } else {
+              console.log("[PWA] User dismissed install prompt");
+            }
+            deferredPrompt = null;
+          }
+          banner.remove();
+        });
+
+        banner.querySelector("#dismiss-btn").addEventListener("click", () => {
+          localStorage.setItem(installPromptKey, "true");
+          banner.remove();
+        });
+      }
+
+      // Handle appinstalled event
+      window.addEventListener("appinstalled", () => {
+        console.log("[PWA] App installed");
+        const banner = document.getElementById("install-banner");
+        if (banner) banner.remove();
+        deferredPrompt = null;
+      });
+
+      // Offline/Online Detection
+      function updateOfflineStatus() {
+        const banner = document.getElementById("offline-banner");
+        if (!banner) return;
+
+        if (!navigator.onLine) {
+          banner.style.display = "block";
+          document.body.style.paddingBottom = banner.offsetHeight + "px";
+        } else {
+          banner.style.display = "none";
+          document.body.style.paddingBottom = "";
+        }
+      }
+
+      window.addEventListener("online", updateOfflineStatus);
+      window.addEventListener("offline", updateOfflineStatus);
+
+      // Initial check
+      updateOfflineStatus();
+    </script>
   </body>
 </html>

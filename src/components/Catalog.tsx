@@ -50,7 +50,7 @@ export function Catalog({ achievements, t, locale }: CatalogProps) {
 
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <fieldset className="flex flex-wrap gap-2">
-          <legend className="sr-only">Filter achievements</legend>
+          <legend className="sr-only">{t.catalog.filterLabel}</legend>
           {filters.map((f) => (
             <button
               key={f.value}
@@ -80,13 +80,18 @@ export function Catalog({ achievements, t, locale }: CatalogProps) {
       {filtered.length === 0 ? (
         <p className="py-16 text-center text-neutral-500">{t.catalog.noResults}</p>
       ) : (
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((achievement) => (
-            <li key={achievement.slug}>
-              <AchievementCard achievement={achievement} t={t} locale={locale} />
-            </li>
-          ))}
-        </ul>
+        <section aria-labelledby="achievements-heading">
+          <h2 id="achievements-heading" className="sr-only">
+            {t.catalog.achievementsList}
+          </h2>
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((achievement) => (
+              <li key={achievement.slug}>
+                <AchievementCard achievement={achievement} t={t} locale={locale} />
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </main>
   );

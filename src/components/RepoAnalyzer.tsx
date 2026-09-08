@@ -166,8 +166,13 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-10">
       {/* Input Section */}
-      <section className="mb-8 rounded-xl border border-neutral-200 p-6 dark:border-neutral-800">
-        <h2 className="text-2xl font-bold tracking-tight">{t.repoAnalyzer.title}</h2>
+      <section
+        className="mb-8 rounded-xl border border-neutral-200 p-6 dark:border-neutral-800"
+        aria-labelledby="analyzer-title"
+      >
+        <h2 id="analyzer-title" className="text-2xl font-bold tracking-tight">
+          {t.repoAnalyzer.title}
+        </h2>
         <p className="mt-2 text-neutral-600 dark:text-neutral-400">{t.repoAnalyzer.subtitle}</p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -289,14 +294,20 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
 
       {/* User Info */}
       {user && (
-        <section className="mb-8 rounded-xl border border-neutral-200 p-6 dark:border-neutral-800">
+        <section
+          className="mb-8 rounded-xl border border-neutral-200 p-6 dark:border-neutral-800"
+          aria-labelledby="user-info-title"
+        >
+          <h3 id="user-info-title" className="sr-only">
+            {t.repoAnalyzer.repoInfo}
+          </h3>
           <div className="flex items-center gap-4">
             <img
               src={user.avatar_url}
               alt={`${user.login} avatar`}
               width={64}
               height={64}
-              className="h-16 w-16 rounded-full"
+              className="h-16 w-16 max-w-full rounded-full"
             />
             <div>
               <h3 className="text-xl font-semibold">{user.name ?? user.login}</h3>
@@ -311,8 +322,11 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
 
       {/* Repo Info */}
       {repo && (
-        <section className="mb-8 rounded-xl border border-neutral-200 p-6 dark:border-neutral-800">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
+        <section
+          className="mb-8 rounded-xl border border-neutral-200 p-6 dark:border-neutral-800"
+          aria-labelledby="repo-info-title"
+        >
+          <h3 id="repo-info-title" className="text-lg font-semibold flex items-center gap-2">
             <svg
               className="h-5 w-5 text-blue-500"
               viewBox="0 0 24 24"
@@ -323,7 +337,7 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
             </svg>
             {t.repoAnalyzer.repoInfo}
           </h3>
-          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:grid-cols-6">
             <div className="rounded-lg bg-neutral-50 p-4 dark:bg-neutral-800/50">
               <p className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
                 {t.repoAnalyzer.stars}
@@ -380,9 +394,11 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
       )}
 
       {/* Achievements */}
-      <section className="mb-8">
+      <section className="mb-8" aria-labelledby="achievements-title">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">{t.repoAnalyzer.achievements}</h3>
+          <h3 id="achievements-title" className="text-lg font-semibold">
+            {t.repoAnalyzer.achievements}
+          </h3>
           {achievements.length > 0 && (
             <span className="rounded-full bg-neutral-100 px-3 py-1 text-sm font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
               {achievements.length} {t.repoAnalyzer.achievements.toLowerCase()}
@@ -459,7 +475,7 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
                         width={48}
                         height={48}
                         loading="lazy"
-                        className="h-12 w-12 rounded-lg object-cover bg-neutral-100 dark:bg-neutral-800"
+                        className="h-12 w-12 max-w-full rounded-lg object-cover bg-neutral-100 dark:bg-neutral-800"
                       />
                       <div>
                         <h4 className="font-semibold leading-tight">{achievement.name}</h4>

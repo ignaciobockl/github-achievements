@@ -114,6 +114,7 @@ test("CTA section exists with heading and accent link", async ({ page }) => {
     window.localStorage.setItem("gha-theme", "light");
   });
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
 
   const section = page.locator('section[aria-labelledby="cta-title"]');
   await expect(section).toBeVisible();
