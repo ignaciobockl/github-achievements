@@ -1,0 +1,42 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop, master]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'bun'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Start preview server
+        run: |
+          bun run preview --port 4321 &
+          echo "PREVIEW_PID=$!" >> $GITHUB_ENV
+          sleep 5
+
+      - name: Run Lighthouse CI
+        run: npx @lhci/cli@latest autorun --fail-on-budget --config=.lighthouserc.json
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Stop preview server
+        if: always()
+        run: |
+          if [ -n "$PREVIEW_PID" ]; then kill $PREVIEW_PID; fi

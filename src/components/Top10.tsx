@@ -144,7 +144,106 @@ export function Top10({ locale, t }: Top10Props) {
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-neutral-200 dark:border-neutral-800">
+      {/* Mobile Card Layout */}
+      <div className="block lg:hidden space-y-4">
+        {data.users.map((user: Top10User, index: number) => {
+          const rank = index + 1;
+          const medal = MEDAL_EMOJIS[rank] ?? `#${rank}`;
+          const isTop3 = rank <= 3;
+
+          return (
+            <article
+              key={user.username}
+              className={`rounded-xl border border-neutral-200 p-4 transition ${
+                isTop3
+                  ? "bg-amber-50/50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800"
+                  : ""
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span
+                    className="text-2xl font-mono font-bold text-neutral-700 dark:text-neutral-300"
+                    role="img"
+                    aria-label={`Rank ${rank}`}
+                  >
+                    {medal}
+                  </span>
+                  <a
+                    href={user.profile_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                  >
+                    <img
+                      src={user.avatar_url}
+                      alt=""
+                      className="h-8 w-8 max-w-full rounded-full bg-neutral-100 dark:bg-neutral-800"
+                      loading="lazy"
+                      width={32}
+                      height={32}
+                    />
+                    <span className="font-medium text-neutral-900 dark:text-neutral-100">
+                      {user.username}
+                    </span>
+                  </a>
+                </div>
+                <span className="font-mono font-bold text-lg text-blue-600 dark:text-blue-400">
+                  {user.score.toFixed(1)}
+                </span>
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="font-mono font-medium text-neutral-900 dark:text-neutral-100">
+                    {user.total_achievements}
+                  </p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-500">
+                    {t.top10.achievements}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-mono font-medium text-neutral-900 dark:text-neutral-100">
+                    {user.tier_breakdown.gold +
+                      user.tier_breakdown.silver +
+                      user.tier_breakdown.bronze +
+                      user.tier_breakdown.default}
+                  </p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-500">{t.top10.tiers}</p>
+                </div>
+                <div className="flex items-center justify-center gap-1">
+                  {user.tier_breakdown.gold > 0 && (
+                    <span
+                      className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                      title={`${user.tier_breakdown.gold} Gold`}
+                    >
+                      🥇 {user.tier_breakdown.gold}
+                    </span>
+                  )}
+                  {user.tier_breakdown.silver > 0 && (
+                    <span
+                      className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
+                      title={`${user.tier_breakdown.silver} Silver`}
+                    >
+                      🥈 {user.tier_breakdown.silver}
+                    </span>
+                  )}
+                  {user.tier_breakdown.bronze > 0 && (
+                    <span
+                      className="inline-flex items-center gap-1 rounded-full bg-amber-200 px-2 py-0.5 text-xs font-medium text-amber-900 dark:bg-amber-900/30 dark:text-amber-200"
+                      title={`${user.tier_breakdown.bronze} Bronze`}
+                    >
+                      🥉 {user.tier_breakdown.bronze}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {/* Desktop Table Layout */}
+      <div className="hidden lg:block overflow-x-auto rounded-lg border border-neutral-200 dark:border-neutral-800">
         <table className="w-full min-w-[700px] text-sm">
           <thead className="bg-neutral-50 dark:bg-neutral-900">
             <tr>
@@ -189,9 +288,7 @@ export function Top10({ locale, t }: Top10Props) {
               return (
                 <tr
                   key={user.username}
-                  className={`hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors ${
-                    isTop3 ? "bg-amber-50/50 dark:bg-amber-900/10" : ""
-                  }`}
+                  className={`hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors ${isTop3 ? "bg-amber-50/50 dark:bg-amber-900/10" : ""}`}
                 >
                   <td className="px-4 py-3 font-mono font-semibold text-lg text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                     <span role="img" aria-label={`Rank ${rank}`}>
@@ -208,7 +305,7 @@ export function Top10({ locale, t }: Top10Props) {
                       <img
                         src={user.avatar_url}
                         alt=""
-                        className="h-8 w-8 rounded-full bg-neutral-100 dark:bg-neutral-800"
+                        className="h-8 w-8 max-w-full rounded-full bg-neutral-100 dark:bg-neutral-800"
                         loading="lazy"
                         width={32}
                         height={32}

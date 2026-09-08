@@ -61,7 +61,6 @@ export function SkinToneSelector({
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 10px center",
     backgroundSize: "16px 16px",
-    outline: "none",
     cursor: "pointer",
   };
 

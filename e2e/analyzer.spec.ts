@@ -67,81 +67,136 @@ const mockRepo = {
 };
 
 function setupApiMocks(page: import("@playwright/test").Page) {
-  // Mock user endpoint
-  page.route("**/api.github.com/users/octocat", async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      headers: {
-        "X-RateLimit-Limit": "5000",
-        "X-RateLimit-Remaining": "4999",
-        "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
-        "X-RateLimit-Used": "1",
-      },
-      body: JSON.stringify(mockUser),
-    });
-  });
+  // Mock fetch globally in the page context - more reliable than page.route
+  page.addInitScript(
+    (mocks) => {
+      const originalFetch = window.fetch;
+      const corsHeaders = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers":
+          "X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-RateLimit-Used",
+      };
 
-  // Mock user achievements endpoint
-  page.route("**/api.github.com/users/octocat/achievements", async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      headers: {
-        "X-RateLimit-Limit": "5000",
-        "X-RateLimit-Remaining": "4998",
-        "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
-        "X-RateLimit-Used": "2",
-      },
-      body: JSON.stringify(mockAchievements),
-    });
-  });
+      window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+        const url =
+          typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
 
-  // Mock repo endpoint
-  page.route("**/api.github.com/repos/octocat/Hello-World", async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      headers: {
-        "X-RateLimit-Limit": "5000",
-        "X-RateLimit-Remaining": "4997",
-        "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
-        "X-RateLimit-Used": "3",
-      },
-      body: JSON.stringify(mockRepo),
-    });
-  });
+        // Mock user endpoint
+        if (url === "https://api.github.com/users/octocat") {
+          return new Response(JSON.stringify(mocks.mockUser), {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+              "X-RateLimit-Limit": "5000",
+              "X-RateLimit-Remaining": "4999",
+              "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
+              "X-RateLimit-Used": "1",
+            },
+          });
+        }
 
-  // Mock rate limit error (403)
-  page.route("**/api.github.com/users/rate-limited", async (route) => {
-    await route.fulfill({
-      status: 403,
-      contentType: "application/json",
-      headers: {
-        "X-RateLimit-Limit": "5000",
-        "X-RateLimit-Remaining": "0",
-        "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
-        "X-RateLimit-Used": "5000",
-      },
-      body: JSON.stringify({
-        message: "API rate limit exceeded",
-        documentation_url:
-          "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting",
-      }),
-    });
-  });
+        // Mock user achievements endpoint
+        if (url === "https://api.github.com/users/octocat/achievements") {
+          return new Response(JSON.stringify(mocks.mockAchievements), {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+              "X-RateLimit-Limit": "5000",
+              "X-RateLimit-Remaining": "4998",
+              "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
+              "X-RateLimit-Used": "2",
+            },
+          });
+        }
 
-  // Mock not found error (404)
-  page.route("**/api.github.com/users/notfound", async (route) => {
-    await route.fulfill({
-      status: 404,
-      contentType: "application/json",
-      body: JSON.stringify({
-        message: "Not Found",
-        documentation_url: "https://docs.github.com/rest/reference/users#get-a-user",
-      }),
-    });
-  });
+        // Mock repo endpoint
+        if (url === "https://api.github.com/repos/octocat/Hello-World") {
+          return new Response(JSON.stringify(mocks.mockRepo), {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+              "X-RateLimit-Limit": "5000",
+              "X-RateLimit-Remaining": "4997",
+              "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
+              "X-RateLimit-Used": "3",
+            },
+          });
+        }
+
+        // Mock rate limit error (403) for user fetch
+        if (url === "https://api.github.com/users/rate-limited") {
+          return new Response(
+            JSON.stringify({
+              message: "API rate limit exceeded",
+              documentation_url:
+                "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting",
+            }),
+            {
+              status: 403,
+              headers: {
+                "Content-Type": "application/json",
+                ...corsHeaders,
+                "X-RateLimit-Limit": "5000",
+                "X-RateLimit-Remaining": "0",
+                "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
+                "X-RateLimit-Used": "5000",
+              },
+            },
+          );
+        }
+
+        // Mock rate limit error (403) for achievements fetch
+        if (url === "https://api.github.com/users/rate-limited/achievements") {
+          return new Response(
+            JSON.stringify({
+              message: "API rate limit exceeded",
+              documentation_url:
+                "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting",
+            }),
+            {
+              status: 403,
+              headers: {
+                "Content-Type": "application/json",
+                ...corsHeaders,
+                "X-RateLimit-Limit": "5000",
+                "X-RateLimit-Remaining": "0",
+                "X-RateLimit-Reset": String(Math.floor(Date.now() / 1000) + 3600),
+                "X-RateLimit-Used": "5000",
+              },
+            },
+          );
+        }
+
+        // Mock not found error (404)
+        if (url === "https://api.github.com/users/notfound") {
+          return new Response(
+            JSON.stringify({
+              message: "Not Found",
+              documentation_url: "https://docs.github.com/rest/reference/users#get-a-user",
+            }),
+            {
+              status: 404,
+              headers: {
+                "Content-Type": "application/json",
+                ...corsHeaders,
+              },
+            },
+          );
+        }
+
+        // Fall through to real fetch for unmatched URLs
+        return originalFetch(input, init);
+      };
+    },
+    {
+      mockUser,
+      mockAchievements,
+      mockRepo,
+    },
+  );
 }
 
 async function clickAnalyze(page: import("@playwright/test").Page) {
@@ -242,8 +297,8 @@ test.describe("Repository Analyzer", () => {
     // Wait for results - user info should appear
     await expect(page.locator("img[alt*='octocat avatar']")).toBeVisible({ timeout: 15000 });
 
-    // Verify repo info shows (stars, forks, language, etc.)
-    const repoSection = page.locator("section").filter({ hasText: "Repository Info" });
+    // Verify repo info shows (stars, forks, language, etc.) - use aria-labelledby to distinguish from user info section
+    const repoSection = page.locator('section[aria-labelledby="repo-info-title"]');
     await expect(repoSection).toBeVisible({ timeout: 15000 });
     await expect(repoSection.locator("text=Stars")).toBeVisible({ timeout: 15000 });
     await expect(repoSection.locator("text=Forks")).toBeVisible({ timeout: 15000 });

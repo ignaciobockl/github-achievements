@@ -29,6 +29,7 @@ A comprehensive, always-up-to-date guide to every [GitHub profile achievement](h
 | Unit tests | [Vitest](https://vitest.dev) |
 | E2E tests | [Playwright](https://playwright.dev) |
 | Deploy | Cloudflare Pages |
+| PWA | vite-plugin-pwa + custom SW |
 
 ## Getting started
 
