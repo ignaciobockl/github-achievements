@@ -61,6 +61,20 @@ export class GitHubApiError extends Error {
   }
 }
 
+export class GitHubRateLimitError extends GitHubApiError {
+  public readonly rateLimit: RateLimitInfo;
+  public readonly resetTime: Date | null;
+  public readonly secondsUntilReset: number | null;
+
+  constructor(message: string, rateLimit: RateLimitInfo) {
+    super(message, 429);
+    this.name = "GitHubRateLimitError";
+    this.rateLimit = rateLimit;
+    this.resetTime = getRateLimitResetTime(rateLimit);
+    this.secondsUntilReset = getSecondsUntilReset(rateLimit);
+  }
+}
+
 function parseRateLimitHeaders(headers: Headers): RateLimitInfo {
   return {
     limit: parseInt(headers.get("X-RateLimit-Limit") ?? "0", 10),
@@ -91,6 +105,14 @@ async function handleResponse<T>(
       // Ignore JSON parse errors, use default message
     }
 
+    if (response.status === 429) {
+      const retryAfter = response.headers.get("Retry-After");
+      const retryMessage = retryAfter
+        ? `${errorMessage}. Retry after ${retryAfter} seconds.`
+        : `${errorMessage}. Rate limit exceeded.`;
+      throw new GitHubRateLimitError(retryMessage, rateLimit);
+    }
+
     throw new GitHubApiError(errorMessage, response.status, documentationUrl);
   }
 
@@ -98,22 +120,74 @@ async function handleResponse<T>(
   return { data, rateLimit };
 }
 
+export async function fetchWithRetry<T>(
+  fetchFn: () => Promise<{ data: T; rateLimit: RateLimitInfo }>,
+  maxRetries: number = 3,
+  baseDelay: number = 100,
+): Promise<{ data: T; rateLimit: RateLimitInfo }> {
+  let lastError: Error = new Error("Unknown error");
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fetchFn();
+    } catch (error) {
+      lastError = error as Error;
+
+      if (error instanceof GitHubRateLimitError) {
+        if (attempt < maxRetries) {
+          const delay = baseDelay * 2 ** attempt;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          continue;
+        }
+        throw error;
+      }
+
+      if (error instanceof GitHubApiError && error.status >= 500 && error.status < 600) {
+        if (attempt < maxRetries) {
+          const delay = baseDelay * 2 ** attempt;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          continue;
+        }
+        throw error;
+      }
+
+      throw error;
+    }
+  }
+
+  // lastError is guaranteed to be set because the loop runs at least once (attempt = 0)
+  // and we only reach here if all attempts failed
+  throw lastError as Error;
+}
+
+async function fetchWithRetryInternal<T>(
+  url: string,
+  options: RequestInit,
+): Promise<{ data: T; rateLimit: RateLimitInfo }> {
+  return fetchWithRetry(async () => {
+    const response = await fetch(url, options);
+    return handleResponse<T>(response);
+  });
+}
+
 export async function fetchUser(
   username: string,
 ): Promise<{ data: GitHubUser; rateLimit: RateLimitInfo }> {
-  const response = await fetch(`${GITHUB_API_BASE}/users/${encodeURIComponent(username)}`, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
+  return fetchWithRetryInternal<GitHubUser>(
+    `${GITHUB_API_BASE}/users/${encodeURIComponent(username)}`,
+    {
+      headers: {
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
     },
-  });
-  return handleResponse<GitHubUser>(response);
+  );
 }
 
 export async function fetchUserAchievements(
   username: string,
 ): Promise<{ data: GitHubAchievement[]; rateLimit: RateLimitInfo }> {
-  const response = await fetch(
+  return fetchWithRetryInternal<GitHubAchievement[]>(
     `${GITHUB_API_BASE}/users/${encodeURIComponent(username)}/achievements`,
     {
       headers: {
@@ -122,14 +196,13 @@ export async function fetchUserAchievements(
       },
     },
   );
-  return handleResponse<GitHubAchievement[]>(response);
 }
 
 export async function fetchRepo(
   owner: string,
   repo: string,
 ): Promise<{ data: GitHubRepo; rateLimit: RateLimitInfo }> {
-  const response = await fetch(
+  return fetchWithRetryInternal<GitHubRepo>(
     `${GITHUB_API_BASE}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
     {
       headers: {
@@ -138,7 +211,6 @@ export async function fetchRepo(
       },
     },
   );
-  return handleResponse<GitHubRepo>(response);
 }
 
 export function isRateLimited(rateLimit: RateLimitInfo): boolean {
@@ -158,4 +230,88 @@ export function getSecondsUntilReset(rateLimit: RateLimitInfo): number | null {
     return null;
   }
   return Math.max(0, Math.ceil((resetTime.getTime() - Date.now()) / 1000));
+}
+
+export interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+  rateLimit?: RateLimitInfo;
+}
+
+const CACHE_PREFIX = "gha-cache-";
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+function getCacheKey(key: string): string {
+  return `${CACHE_PREFIX}${key}`;
+}
+
+export function getCached<T>(key: string): CacheEntry<T> | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  try {
+    const stored = window.localStorage.getItem(getCacheKey(key));
+    if (!stored) {
+      return null;
+    }
+    const entry = JSON.parse(stored) as CacheEntry<T>;
+    if (Date.now() - entry.timestamp > CACHE_TTL) {
+      window.localStorage.removeItem(getCacheKey(key));
+      return null;
+    }
+    return entry;
+  } catch {
+    return null;
+  }
+}
+
+export function setCached<T>(key: string, data: T, rateLimit?: RateLimitInfo): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    const entry: CacheEntry<T> = {
+      data,
+      timestamp: Date.now(),
+      rateLimit,
+    };
+    window.localStorage.setItem(getCacheKey(key), JSON.stringify(entry));
+  } catch {
+    // Ignore quota exceeded errors
+  }
+}
+
+export function clearCache(key?: string): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    if (key) {
+      window.localStorage.removeItem(getCacheKey(key));
+    } else {
+      Object.keys(window.localStorage)
+        .filter((k) => k.startsWith(CACHE_PREFIX))
+        .forEach((k) => {
+          window.localStorage.removeItem(k);
+        });
+    }
+  } catch {
+    // Ignore errors
+  }
+}
+
+export function getCacheStats(): { entries: number; totalSize: number; keys: string[] } {
+  if (typeof window === "undefined") {
+    return { entries: 0, totalSize: 0, keys: [] };
+  }
+  try {
+    const keys = Object.keys(window.localStorage).filter((k) => k.startsWith(CACHE_PREFIX));
+    let totalSize = 0;
+    keys.forEach((k) => {
+      totalSize += window.localStorage.getItem(k)?.length ?? 0;
+    });
+    return { entries: keys.length, totalSize, keys };
+  } catch {
+    return { entries: 0, totalSize: 0, keys: [] };
+  }
 }

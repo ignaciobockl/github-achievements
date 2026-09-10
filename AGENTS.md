@@ -129,3 +129,11 @@ and `prefers-color-scheme` detection. No flash-of-wrong-theme (FOUC) — impleme
 - **Install prompt**: Custom beforeinstallprompt handler in `src/components/PWAInstallPrompt.tsx` (React island) with localStorage dismissal tracking; shows on repeat visits after 30s delay.
 - **Offline page**: `/offline.html` (generated at build) served when page navigation fails offline; includes retry button and cached catalog link.
 - **Versioning**: SW version bumped via `pwa.version` in `astro.config.mjs` on each release; clients update on next navigation.
+
+## Analyzer (v0.5.1)
+
+- Repository analyzer at `/analyze` with user/repo modes
+- Debounce + 3s cooldown between requests
+- Rate limit handling with countdown (X-RateLimit-Reset)
+- localStorage cache (5min user/achievements, 10min repo)
+- i18n en/es with rate limit messages and countdown
