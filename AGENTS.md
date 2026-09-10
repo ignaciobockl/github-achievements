@@ -118,3 +118,22 @@ and `prefers-color-scheme` detection. No flash-of-wrong-theme (FOUC) — impleme
 - Helper `src/theme/skin-tone.ts` mirrors `src/theme/theme.ts` (`gha-skin-tone` localStorage, `badgeVariantUrl`, `resolveVariantUrl`).
 - Selector `src/components/SkinToneSelector.tsx` (React island, `client:load`) with preview on `src/pages/[locale]/achievements/[slug].astro` (`img#achievement-badge`). Landing auto-applies stored tone via `is:inline` script on `img[data-variant-slug]`.
 - i18n `skinTone` keys in `src/i18n/translations.ts` (en/es).
+
+## PWA
+
+- **Service Worker**: Offline-first caching strategy via `vite-plugin-pwa` + custom SW in `public/sw.js`.
+  - Static assets (JS, CSS, images, fonts): Cache First — served from cache, updated on next visit.
+  - Pages / HTML: Network First — try network, fall back to cache, update cache on success.
+  - API calls: Network Only — never cached, fail fast when offline.
+- **Manifest**: Defined in `astro.config.mjs` (`pwa.manifest`) with icons (multiple sizes), shortcuts (catalog, analyze), theme colors, and display mode `standalone`.
+- **Install prompt**: Custom beforeinstallprompt handler in `src/components/PWAInstallPrompt.tsx` (React island) with localStorage dismissal tracking; shows on repeat visits after 30s delay.
+- **Offline page**: `/offline.html` (generated at build) served when page navigation fails offline; includes retry button and cached catalog link.
+- **Versioning**: SW version bumped via `pwa.version` in `astro.config.mjs` on each release; clients update on next navigation.
+
+## Analyzer (v0.5.1)
+
+- Repository analyzer at `/analyze` with user/repo modes
+- Debounce + 3s cooldown between requests
+- Rate limit handling with countdown (X-RateLimit-Reset)
+- localStorage cache (5min user/achievements, 10min repo)
+- i18n en/es with rate limit messages and countdown

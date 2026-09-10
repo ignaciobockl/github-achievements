@@ -42,7 +42,7 @@ const tierBadges: Record<string, string | undefined> = {
       <ThemeToggle client:load label={t.theme.label} labels={t.theme} />
     </div>
   </header>
-  <main class="mx-auto w-full max-w-3xl px-6 py-10">
+  <main id="main-content" class="mx-auto w-full max-w-3xl px-6 py-10">
     <a
       href={`/${locale}`}
       class="mb-6 inline-block text-sm text-blue-600 hover:underline dark:text-blue-400"
@@ -51,14 +51,14 @@ const tierBadges: Record<string, string | undefined> = {
     </a>
 
     <div class="flex items-center gap-4">
-      <img
-        id="achievement-badge"
-        src={achievement.badge.default}
-        alt={`${achievement.title} badge`}
-        width={80}
-        height={80}
-        class="h-20 w-20 object-contain"
-      />
+<img
+          id="achievement-badge"
+          src={achievement.badge.default}
+          alt={`${achievement.title} badge`}
+          width={80}
+          height={80}
+          className="h-20 w-20 max-w-full object-contain"
+        />
       <div>
         <h1 class="text-3xl font-bold tracking-tight">{achievement.title}</h1>
         <p class="mt-1 text-neutral-600 dark:text-neutral-400">
@@ -115,14 +115,14 @@ const tierBadges: Record<string, string | undefined> = {
           <ul class="mt-4 space-y-3">
             {achievement.tiers.map((tier) => (
               <li class="flex items-start gap-3 rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
-                {
+{
                   tierBadges[tier.tier] && (
                     <img
                       src={tierBadges[tier.tier]}
                       alt={`${achievement.title} ${t.tierNames[tier.tier]} badge`}
                       width={40}
                       height={40}
-                      class="h-10 w-10 object-contain"
+                      className="h-10 w-10 max-w-full object-contain"
                     />
                   )
                 }

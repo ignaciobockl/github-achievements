@@ -11,6 +11,7 @@ A comprehensive, always-up-to-date guide to every [GitHub profile achievement](h
 - **Full catalog** — every GitHub achievement with badge images, category, and earnability status.
 - **Unlock guides** — step-by-step instructions and exact tier thresholds (bronze, silver, gold).
 - **Repository analysis** — paste a username/repo and see which achievements you already have and how close you are to the next tier, via the public GitHub REST API.
+- **Repository Analyzer** — paste a username/repo and see achievements, progress, and repo stats via GitHub API.
 - **Global top 10** — a leaderboard of the users with the most and highest-tier achievements.
 - **Badge skin tones** — Quickdraw and Starstruck variant selector with local assets.
 - **Multilingual** — automatic locale detection (browser `Accept-Language`) with a clean fallback.
@@ -29,6 +30,7 @@ A comprehensive, always-up-to-date guide to every [GitHub profile achievement](h
 | Unit tests | [Vitest](https://vitest.dev) |
 | E2E tests | [Playwright](https://playwright.dev) |
 | Deploy | Cloudflare Pages |
+| PWA | vite-plugin-pwa + custom SW |
 
 ## Getting started
 
@@ -56,6 +58,7 @@ Open http://localhost:4321.
 | `bun run test:e2e` | Playwright end-to-end tests |
 | `bun run sync` | Compare the local dataset with the upstream achievements README |
 | `bun run top10:sync` | Manually refresh the global Top 10 leaderboard |
+| `bun run analyze` | Run the analyzer page locally |
 
 ## Project structure
 

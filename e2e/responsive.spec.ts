@@ -4,16 +4,18 @@ async function columnCount(
   page: import("@playwright/test").Page,
   selector: string,
 ): Promise<number> {
-  const gridTemplateColumns = await page.$eval(selector, (el) =>
-    getComputedStyle(el).gridTemplateColumns.trim(),
-  );
+  const gridTemplateColumns = await page
+    .locator(selector)
+    .first()
+    .evaluate((el) => getComputedStyle(el).gridTemplateColumns.trim());
   if (!gridTemplateColumns || gridTemplateColumns === "none") return 0;
   return gridTemplateColumns.split(/\s+/).filter(Boolean).length;
 }
 
 test.describe("responsive", () => {
   test("no horizontal overflow", async ({ page }) => {
-    await page.goto("/en/");
+    await page.goto("/en/", { waitUntil: "networkidle" });
+    await page.waitForLoadState("domcontentloaded");
     const fits = await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
     );
@@ -22,7 +24,8 @@ test.describe("responsive", () => {
 
   test("desktop: collection grid has 3 columns", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/en/");
+    await page.goto("/en/", { waitUntil: "networkidle" });
+    await page.waitForLoadState("domcontentloaded");
     const grid = page.locator(".grid-3").first();
     await expect(grid).toBeVisible();
     expect(await columnCount(page, ".grid-3")).toBe(3);
@@ -30,7 +33,8 @@ test.describe("responsive", () => {
 
   test("mobile: grids collapse to 1 column", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/en/");
+    await page.goto("/en/", { waitUntil: "networkidle" });
+    await page.waitForLoadState("domcontentloaded");
 
     for (const selector of [".grid-3", ".hero-grid", ".stat"]) {
       const loc = page.locator(selector).first();
@@ -40,16 +44,18 @@ test.describe("responsive", () => {
   });
 
   test("wrap container max-width is 1120px", async ({ page }) => {
-    await page.goto("/en/");
+    await page.goto("/en/", { waitUntil: "networkidle" });
+    await page.waitForLoadState("domcontentloaded");
     const wrap = page.locator(".wrap").first();
     await expect(wrap).toBeVisible();
-    const maxWidth = await page.$eval(".wrap", (el) => getComputedStyle(el).maxWidth);
+    const maxWidth = await wrap.evaluate((el) => getComputedStyle(el).maxWidth);
     expect(maxWidth).toBe("1120px");
   });
 
   test("cards are visible without horizontal scroll on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/en/");
+    await page.goto("/en/", { waitUntil: "networkidle" });
+    await page.waitForLoadState("domcontentloaded");
 
     const cards = page.locator('[role="list"] article.card');
     await expect(cards.first()).toBeVisible();

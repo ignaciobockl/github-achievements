@@ -2,12 +2,14 @@ import { expect, test } from "@playwright/test";
 
 test("renders 14 achievement cards on /en/", async ({ page }) => {
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
   await expect(page.locator('[role="list"] article.card').first()).toBeVisible();
   await expect(page.locator('[role="list"] article.card')).toHaveCount(14);
 });
 
 test("shows known achievement titles", async ({ page }) => {
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
   for (const title of [
     "Pull Shark",
     "Quickdraw",
@@ -24,6 +26,7 @@ test("shows known achievement titles", async ({ page }) => {
 
 test("shows EN hero title and collection heading", async ({ page }) => {
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Your code milestones, counted with calm.",
   );
@@ -34,6 +37,7 @@ test("shows EN hero title and collection heading", async ({ page }) => {
 
 test("shows ES hero title and collection heading", async ({ page }) => {
   await page.goto("/es/");
+  await page.waitForLoadState("networkidle");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Tus hitos de código, contados con calma.",
   );
@@ -44,6 +48,7 @@ test("shows ES hero title and collection heading", async ({ page }) => {
 
 test("shows stats values on /en/", async ({ page }) => {
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
   await expect(
     page.locator('aside[aria-label="Showcase statistics"]').getByText("09"),
   ).toBeVisible();
@@ -57,6 +62,7 @@ test("shows stats values on /en/", async ({ page }) => {
 
 test("every card links to its detail page", async ({ page }) => {
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
   const links = page.locator("article.card a");
   await expect(links).toHaveCount(14);
   const hrefs = await links.evaluateAll((els) => els.map((el) => el.getAttribute("href")));
@@ -69,6 +75,7 @@ test("every card links to its detail page", async ({ page }) => {
 
 test("renders earnable and not-earnable badges", async ({ page }) => {
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
   await expect(
     page.locator("article.card").getByText("Earnable", { exact: true }).first(),
   ).toBeVisible();
@@ -79,6 +86,7 @@ test("renders earnable and not-earnable badges", async ({ page }) => {
 
 test("tiered achievements show tier pills", async ({ page }) => {
   await page.goto("/en/");
+  await page.waitForLoadState("networkidle");
   const tiers = page.locator(".tier");
   expect(await tiers.count()).toBeGreaterThan(0);
   await expect(tiers.first()).toBeVisible();

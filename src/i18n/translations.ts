@@ -26,6 +26,7 @@ export interface Messages {
     total: string;
     earnable: string;
     notEarnable: string;
+    filterLabel: string;
     filterAll: string;
     filterEarnable: string;
     filterObsolete: string;
@@ -40,6 +41,7 @@ export interface Messages {
     references: string;
     previousNames: string;
     back: string;
+    achievementsList: string;
   };
   categories: {
     earnable: string;
@@ -63,6 +65,9 @@ export interface Messages {
   repoAnalyzer: {
     title: string;
     subtitle: string;
+    modeLabel: string;
+    userMode: string;
+    repoMode: string;
     usernameLabel: string;
     usernamePlaceholder: string;
     repoLabel: string;
@@ -90,6 +95,51 @@ export interface Messages {
     nextTier: string;
     earnedAt: string;
     badge: string;
+    clearRecent: string;
+    resetIn: string;
+    rateLimitProgress: string;
+    repos: string;
+    followers: string;
+    viewOnGitHub: string;
+  };
+  analyzer: {
+    title: string;
+    subtitle: string;
+    modeUser: string;
+    modeRepo: string;
+    usernameLabel: string;
+    usernamePlaceholder: string;
+    repoLabel: string;
+    repoPlaceholder: string;
+    analyzeButton: string;
+    analyzingButton: string;
+    loading: string;
+    error: string;
+    rateLimitError: string;
+    notFoundError: string;
+    genericError: string;
+    retryButton: string;
+    achievements: string;
+    noAchievements: string;
+    repoInfo: string;
+    stars: string;
+    forks: string;
+    watchers: string;
+    language: string;
+    createdAt: string;
+    updatedAt: string;
+    pushedAt: string;
+    tier: string;
+    progress: string;
+    nextTier: string;
+    earnedAt: string;
+    badge: string;
+    cooldown: string;
+    retryAfter: string;
+    tierDefault: string;
+    tierBronze: string;
+    tierSilver: string;
+    tierGold: string;
   };
   top10: {
     title: string;
@@ -202,6 +252,7 @@ export const translations: Record<Locale, Messages> = {
       total: "achievements",
       earnable: "Earnable",
       notEarnable: "Not earnable",
+      filterLabel: "Filter achievements",
       filterAll: "All",
       filterEarnable: "Earnable",
       filterObsolete: "Obsolete",
@@ -216,6 +267,7 @@ export const translations: Record<Locale, Messages> = {
       references: "References",
       previousNames: "Previous names",
       back: "Back to all achievements",
+      achievementsList: "Achievements list",
     },
     categories: {
       earnable: "Earnable",
@@ -239,6 +291,9 @@ export const translations: Record<Locale, Messages> = {
     repoAnalyzer: {
       title: "Repository Analyzer",
       subtitle: "Analyze GitHub achievements for a user or repository",
+      modeLabel: "Analysis mode",
+      userMode: "User",
+      repoMode: "Repository",
       usernameLabel: "GitHub Username",
       usernamePlaceholder: "Enter GitHub username",
       repoLabel: "Repository (optional)",
@@ -266,6 +321,51 @@ export const translations: Record<Locale, Messages> = {
       nextTier: "Next tier",
       earnedAt: "Earned at",
       badge: "Badge",
+      clearRecent: "Clear recent",
+      resetIn: "Resets in",
+      rateLimitProgress: "Rate limit reset progress",
+      repos: "repos",
+      followers: "followers",
+      viewOnGitHub: "View on GitHub",
+    },
+    analyzer: {
+      title: "Repository Analyzer",
+      subtitle: "Analyze GitHub achievements for a user or repository",
+      modeUser: "User",
+      modeRepo: "Repository",
+      usernameLabel: "GitHub Username",
+      usernamePlaceholder: "Enter GitHub username",
+      repoLabel: "Repository",
+      repoPlaceholder: "owner/repo (e.g., octocat/Hello-World)",
+      analyzeButton: "Analyze",
+      analyzingButton: "Analyzing...",
+      loading: "Fetching data...",
+      error: "Error",
+      rateLimitError: "Rate limit exceeded. Please wait before trying again.",
+      notFoundError: "User or repository not found.",
+      genericError: "An error occurred while fetching data.",
+      retryButton: "Try Again",
+      achievements: "Achievements",
+      noAchievements: "No achievements found for this user.",
+      repoInfo: "Repository Info",
+      stars: "Stars",
+      forks: "Forks",
+      watchers: "Watchers",
+      language: "Language",
+      createdAt: "Created",
+      updatedAt: "Updated",
+      pushedAt: "Last Push",
+      tier: "Tier",
+      progress: "Progress",
+      nextTier: "Next tier",
+      earnedAt: "Earned at",
+      badge: "Badge",
+      cooldown: "Please wait before making another request.",
+      retryAfter: "Retry in {seconds}s",
+      tierDefault: "Default",
+      tierBronze: "Bronze",
+      tierSilver: "Silver",
+      tierGold: "Gold",
     },
     top10: {
       title: "Top 10 Leaderboard",
@@ -378,6 +478,7 @@ export const translations: Record<Locale, Messages> = {
       total: "logros",
       earnable: "Conseguible",
       notEarnable: "No conseguible",
+      filterLabel: "Filtrar logros",
       filterAll: "Todos",
       filterEarnable: "Conseguibles",
       filterObsolete: "Obsoletos",
@@ -392,6 +493,7 @@ export const translations: Record<Locale, Messages> = {
       references: "Referencias",
       previousNames: "Nombres anteriores",
       back: "Volver a todos los logros",
+      achievementsList: "Lista de logros",
     },
     categories: {
       earnable: "Conseguible",
@@ -415,6 +517,9 @@ export const translations: Record<Locale, Messages> = {
     repoAnalyzer: {
       title: "Analizador de Repositorio",
       subtitle: "Analiza los logros de GitHub de un usuario o repositorio",
+      modeLabel: "Modo de análisis",
+      userMode: "Usuario",
+      repoMode: "Repositorio",
       usernameLabel: "Usuario de GitHub",
       usernamePlaceholder: "Introduce el usuario de GitHub",
       repoLabel: "Repositorio (opcional)",
@@ -442,6 +547,51 @@ export const translations: Record<Locale, Messages> = {
       nextTier: "Siguiente nivel",
       earnedAt: "Conseguido el",
       badge: "Insignia",
+      clearRecent: "Limpiar recientes",
+      resetIn: "Restablece en",
+      rateLimitProgress: "Progreso de restablecimiento de límite",
+      repos: "repos",
+      followers: "seguidores",
+      viewOnGitHub: "Ver en GitHub",
+    },
+    analyzer: {
+      title: "Analizador de Repositorio",
+      subtitle: "Analiza los logros de GitHub de un usuario o repositorio",
+      modeUser: "Usuario",
+      modeRepo: "Repositorio",
+      usernameLabel: "Usuario de GitHub",
+      usernamePlaceholder: "Introduce el usuario de GitHub",
+      repoLabel: "Repositorio",
+      repoPlaceholder: "propietario/repo (ej. octocat/Hello-World)",
+      analyzeButton: "Analizar",
+      analyzingButton: "Analizando...",
+      loading: "Obteniendo datos...",
+      error: "Error",
+      rateLimitError: "Límite de peticiones excedido. Espera antes de volver a intentarlo.",
+      notFoundError: "Usuario o repositorio no encontrado.",
+      genericError: "Ocurrió un error al obtener los datos.",
+      retryButton: "Reintentar",
+      achievements: "Logros",
+      noAchievements: "No se encontraron logros para este usuario.",
+      repoInfo: "Información del repositorio",
+      stars: "Estrellas",
+      forks: "Bifurcaciones",
+      watchers: "Observadores",
+      language: "Lenguaje",
+      createdAt: "Creado",
+      updatedAt: "Actualizado",
+      pushedAt: "Último push",
+      tier: "Nivel",
+      progress: "Progreso",
+      nextTier: "Siguiente nivel",
+      earnedAt: "Conseguido el",
+      badge: "Insignia",
+      cooldown: "Espera antes de hacer otra petición.",
+      retryAfter: "Reintentar en {seconds}s",
+      tierDefault: "Predeterminado",
+      tierBronze: "Bronce",
+      tierSilver: "Plata",
+      tierGold: "Oro",
     },
     top10: {
       title: "Clasificación Top 10",

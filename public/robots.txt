@@ -1,0 +1,5 @@
+# GitHub Achievements - robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://github-achievements-cs6.pages.dev/sitemap-index.xml

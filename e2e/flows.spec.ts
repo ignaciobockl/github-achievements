@@ -1,5 +1,16 @@
 import { expect, test } from "@playwright/test";
 
+async function waitForHydration(page: import("@playwright/test").Page) {
+  // Wait for React hydration to complete by waiting for the theme toggle to be interactive
+  await page.waitForFunction(
+    () => {
+      const select = document.querySelector<HTMLSelectElement>("#theme-toggle");
+      return select && !select.disabled;
+    },
+    { timeout: 15000 },
+  );
+}
+
 async function selectTheme(
   page: import("@playwright/test").Page,
   theme: "light" | "dark" | "auto",
@@ -29,6 +40,7 @@ async function selectTheme(
 
 test("theme toggle to dark sets html.dark and localStorage", async ({ page }) => {
   await page.goto("/en/");
+  await waitForHydration(page);
   await selectTheme(page, "dark");
   await expect(page.locator("html.dark")).toBeAttached();
   const stored = await page.evaluate(() => localStorage.getItem("gha-theme"));
@@ -37,6 +49,7 @@ test("theme toggle to dark sets html.dark and localStorage", async ({ page }) =>
 
 test("theme toggle to light removes html.dark and stores light", async ({ page }) => {
   await page.goto("/en/");
+  await waitForHydration(page);
   await selectTheme(page, "light");
   await expect(page.locator("html.dark")).toHaveCount(0);
   const stored = await page.evaluate(() => localStorage.getItem("gha-theme"));
@@ -45,6 +58,7 @@ test("theme toggle to light removes html.dark and stores light", async ({ page }
 
 test("theme toggle persists dark across reload", async ({ page }) => {
   await page.goto("/en/");
+  await waitForHydration(page);
   await selectTheme(page, "dark");
   await expect(page.locator("html.dark")).toBeAttached();
   await page.reload();
@@ -70,10 +84,11 @@ test("nav anchor scrolls to collection section", async ({ page }) => {
   if (await link.isVisible()) {
     await link.click();
   } else {
-    // Mobile: desktop nav links are hidden by design; navigate via hash.
+    // Mobile: desktop nav links are hidden by design; navigate with hash.
     await page.goto("/en#collection");
+    await page.waitForTimeout(1000);
+    await page.waitForURL(/#collection/, { timeout: 5000 });
   }
-  await expect(page).toHaveURL(/#collection/);
   await expect
     .poll(
       async () => {
@@ -95,6 +110,8 @@ test("card navigates to detail and back link returns to catalog", async ({ page 
   await expect(page).toHaveURL(/\/en\/achievements\/[a-z0-9-]+/);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await page.locator('main a[href="/en/"], main a[href="/en"]').first().click();
+  await page.waitForURL(/\/en\/?$/, { timeout: 5000 });
+  await page.waitForLoadState("networkidle");
   await expect(page).toHaveURL(/\/en\/?$/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Your code milestones, counted with calm.",

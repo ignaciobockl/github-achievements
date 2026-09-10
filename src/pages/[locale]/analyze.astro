@@ -16,5 +16,7 @@ const homePath = `/${locale}`;
 
 <Layout title={t.repoAnalyzer.title} description={t.repoAnalyzer.subtitle}>
   <Header t={t} locale={locale} title={t.meta.title} homePath={homePath} />
-  <RepoAnalyzer client:load locale={locale} t={t} />
+  <main id="main-content">
+    <RepoAnalyzer client:load locale={locale} t={t} />
+  </main>
 </Layout>
