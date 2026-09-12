@@ -182,6 +182,7 @@ export function Top10({ locale, t }: Top10Props) {
                       loading="lazy"
                       width={32}
                       height={32}
+                      style={{ aspectRatio: "1/1", maxWidth: "100%", height: "auto" }}
                     />
                     <span className="font-medium text-neutral-900 dark:text-neutral-100">
                       {user.username}
@@ -309,6 +310,7 @@ export function Top10({ locale, t }: Top10Props) {
                         loading="lazy"
                         width={32}
                         height={32}
+                        style={{ aspectRatio: "1/1", maxWidth: "100%", height: "auto" }}
                       />
                       <span className="font-medium text-neutral-900 dark:text-neutral-100">
                         {user.username}

@@ -26,6 +26,7 @@ export function AchievementCard({ achievement, t, locale }: AchievementCardProps
             height={48}
             loading="lazy"
             className="h-12 w-12 max-w-full object-contain"
+            style={{ aspectRatio: "1/1", maxWidth: "100%", height: "auto" }}
           />
           <h2 className="font-semibold leading-tight">{achievement.title}</h2>
         </div>
