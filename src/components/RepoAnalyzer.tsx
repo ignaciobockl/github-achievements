@@ -307,7 +307,9 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
               alt={`${user.login} avatar`}
               width={64}
               height={64}
+              loading="lazy"
               className="h-16 w-16 max-w-full rounded-full"
+              style={{ aspectRatio: "1/1", maxWidth: "100%", height: "auto" }}
             />
             <div>
               <h3 className="text-xl font-semibold">{user.name ?? user.login}</h3>
@@ -476,6 +478,7 @@ export function RepoAnalyzer({ locale, t }: RepoAnalyzerProps) {
                         height={48}
                         loading="lazy"
                         className="h-12 w-12 max-w-full rounded-lg object-cover bg-neutral-100 dark:bg-neutral-800"
+                        style={{ aspectRatio: "1/1", maxWidth: "100%", height: "auto" }}
                       />
                       <div>
                         <h4 className="font-semibold leading-tight">{achievement.name}</h4>

@@ -22,8 +22,11 @@ export default defineConfig({
       tailwindcss(),
       VitePWA({
         registerType: "autoUpdate",
-        includeAssets: ["**/*"],
-        base: "/",
+        includeAssets: ["favicon.ico", "favicon.svg"],
+        manifest: false,
+        workbox: {
+          globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        },
       }),
     ],
   },
