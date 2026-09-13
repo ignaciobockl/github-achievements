@@ -69,10 +69,12 @@ test("theme toggle persists dark across reload", async ({ page }) => {
 
 test("locale switch EN to ES changes h1 via direct navigation", async ({ page }) => {
   await page.goto("/en/");
+  await waitForHydration(page);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Your code milestones, counted with calm.",
   );
   await page.goto("/es/");
+  await expect(page).toHaveURL("/es/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Tus hitos de código, contados con calma.",
   );
@@ -120,7 +122,9 @@ test("card navigates to detail and back link returns to catalog", async ({ page 
 
 test("skip link focuses main content", async ({ page }) => {
   await page.goto("/en/");
+  await waitForHydration(page);
   const skipLink = page.locator('a.skip-link[href="#main-content"]');
+  await skipLink.waitFor({ state: "visible" });
   await skipLink.focus();
   await expect(skipLink).toBeFocused();
   await skipLink.press("Enter");
